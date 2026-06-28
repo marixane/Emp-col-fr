@@ -238,7 +238,7 @@ function App() {
         <p className="eyebrow">A4 Exam Maker</p>
         <h1>Créer une feuille A4 avec entête fixe</h1>
         <p className="intro">
-          Les noms des exercices sont fixes. La somme des points reste exactement 20.
+          Chaque exercice a maintenant son cadre de contrôle avec un titre fixe.
         </p>
 
         <div className="form-group">
@@ -248,7 +248,7 @@ function App() {
 
         <div className="form-group">
           <label>Durée</label>
-          <div className="duration-control">
+          <div className="duration-control compact-control">
             <button
               type="button"
               onClick={() => changeDuration(-1)}
@@ -294,38 +294,34 @@ function App() {
         <p className="points-total">Total : {formatPoints(totalPoints)}</p>
 
         {exercises.map((exercise, index) => (
-          <div className="exercise-control" key={exercise.id}>
-            <div className="two-cols">
-              <div>
-                <label>Nom exercice</label>
-                <div className="exercise-name-display">{exercise.title}</div>
-              </div>
-              <div>
-                <label>Points</label>
-                <div className="points-control">
-                  <button
-                    type="button"
-                    onClick={() => changeExercisePoints(index, -1)}
-                    disabled={!canChangeExercisePoints(index, -1)}
-                    aria-label={`Diminuer les points de ${exercise.title}`}
-                  >
-                    −
-                  </button>
-                  <strong>{formatPoints(exercise.points)}</strong>
-                  <button
-                    type="button"
-                    onClick={() => changeExercisePoints(index, 1)}
-                    disabled={!canChangeExercisePoints(index, 1)}
-                    aria-label={`Augmenter les points de ${exercise.title}`}
-                  >
-                    +
-                  </button>
-                </div>
+          <fieldset className="exercise-control-card" key={exercise.id}>
+            <legend>{exercise.title} :</legend>
+
+            <div className="form-group compact-group">
+              <label>Points</label>
+              <div className="points-control compact-control">
+                <button
+                  type="button"
+                  onClick={() => changeExercisePoints(index, -1)}
+                  disabled={!canChangeExercisePoints(index, -1)}
+                  aria-label={`Diminuer les points de ${exercise.title}`}
+                >
+                  −
+                </button>
+                <strong>{formatPoints(exercise.points)}</strong>
+                <button
+                  type="button"
+                  onClick={() => changeExercisePoints(index, 1)}
+                  disabled={!canChangeExercisePoints(index, 1)}
+                  aria-label={`Augmenter les points de ${exercise.title}`}
+                >
+                  +
+                </button>
               </div>
             </div>
 
-            <div className="form-group">
-              <label>Hauteur de {exercise.title}</label>
+            <div className="form-group compact-group">
+              <label>Hauteur</label>
               <input
                 type="range"
                 min="0"
@@ -385,7 +381,7 @@ function App() {
                 </div>
               </div>
             )}
-          </div>
+          </fieldset>
         ))}
 
         <button type="button" onClick={exportPdf} disabled={isExporting}>
