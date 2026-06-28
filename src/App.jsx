@@ -647,7 +647,8 @@ function App() {
                   />
                 )}
                 <div className="exercise-title exercise-title-controls">
-                  <span>{exercise.title} : * (</span>
+                  <span>{exercise.title} : </span>
+                  <span className="points-decoration">* (</span>
                   <button
                     type="button"
                     onClick={() => changeExercisePoints(index, -1)}
@@ -665,7 +666,7 @@ function App() {
                   >
                     +
                   </button>
-                  <span>) *</span>
+                  <span className="points-decoration">) *</span>
                 </div>
                 <div
                   className="exercise-body clickable-photo-zone"
