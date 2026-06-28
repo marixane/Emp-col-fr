@@ -50,6 +50,7 @@ function App() {
   const [exercises, setExercises] = useState(DEFAULT_EXERCISES);
   const [isExporting, setIsExporting] = useState(false);
   const [dragState, setDragState] = useState(null);
+  const [resizeState, setResizeState] = useState(null);
   const pageRef = useRef(null);
 
   const duration = DURATION_OPTIONS[durationIndex];
@@ -153,23 +154,13 @@ function App() {
     });
   };
 
-  const moveDrag = (event) => {
+  const movePhotoDrag = (event) => {
     if (!dragState) return;
 
     const deltaX = event.clientX - dragState.startClientX;
     const deltaY = event.clientY - dragState.startClientY;
 
     updateImagePosition(dragState.id, dragState.startX + deltaX, dragState.startY + deltaY);
-  };
-
-  const endDrag = () => {
-    setDragState(null);
-  };
-
-  const resetPhotoPosition = (id) => {
-    setExercises((items) =>
-      items.map((item) => (item.id === id ? { ...item, zoom: 100, x: 0, y: 0 } : item))
-    );
   };
 
   const getExerciseHeights = () => {
@@ -185,6 +176,63 @@ function App() {
 
   const exerciseHeights = getExerciseHeights();
   const getHeightPercentage = (height) => Math.round((height / TOTAL_EXERCISE_HEIGHT) * 100);
+
+  const startResize = (event, dividerIndex) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setResizeState({
+      dividerIndex,
+      startClientY: event.clientY,
+      startSizes: exercises.map((exercise) => exercise.size),
+      startHeights: exerciseHeights,
+    });
+  };
+
+  const moveResize = (event) => {
+    if (!resizeState) return;
+
+    const deltaY = event.clientY - resizeState.startClientY;
+
+    setExercises((items) =>
+      items.map((item, index) => {
+        if (resizeState.dividerIndex === 0 && index === 0) {
+          const nextFirstHeight = clamp(resizeState.startHeights[0] + deltaY, 350, 570);
+          return { ...item, size: Math.round(nextFirstHeight - 350) };
+        }
+
+        if (resizeState.dividerIndex === 1 && index === 1) {
+          const firstHeight = resizeState.startHeights[0];
+          const remaining = TOTAL_EXERCISE_HEIGHT - firstHeight;
+          const nextSecondHeight = clamp(resizeState.startHeights[1] + deltaY, 150, remaining - 150);
+          const wantedBalance = nextSecondHeight - remaining / 2;
+          return { ...item, size: clamp(Math.round(wantedBalance + resizeState.startSizes[2]), 0, 120) };
+        }
+
+        return item;
+      })
+    );
+  };
+
+  const handlePointerMove = (event) => {
+    if (resizeState) {
+      moveResize(event);
+      return;
+    }
+
+    movePhotoDrag(event);
+  };
+
+  const endDrag = () => {
+    setDragState(null);
+    setResizeState(null);
+  };
+
+  const resetPhotoPosition = (id) => {
+    setExercises((items) =>
+      items.map((item) => (item.id === id ? { ...item, zoom: 100, x: 0, y: 0 } : item))
+    );
+  };
 
   const handleExerciseImage = (id, file) => {
     if (!file || !file.type.startsWith('image/')) return;
@@ -233,12 +281,12 @@ function App() {
   };
 
   return (
-    <main className="app-shell" onMouseMove={moveDrag} onMouseUp={endDrag} onMouseLeave={endDrag}>
+    <main className="app-shell" onMouseMove={handlePointerMove} onMouseUp={endDrag} onMouseLeave={endDrag}>
       <section className="panel">
         <p className="eyebrow">A4 Exam Maker</p>
         <h1>Créer une feuille A4 avec entête fixe</h1>
         <p className="intro">
-          Chaque exercice a maintenant son cadre de contrôle avec un titre fixe.
+          Tu peux modifier la hauteur directement dans la page avec les lignes entre les exercices.
         </p>
 
         <div className="form-group">
@@ -436,6 +484,19 @@ function App() {
                     <div className="empty-zone">Photo de {exercise.title}</div>
                   )}
                 </div>
+
+                {!isExporting && index < 2 && (
+                  <button
+                    type="button"
+                    className="height-drag-line"
+                    onMouseDown={(event) => startResize(event, index)}
+                    aria-label={`Modifier la hauteur après ${exercise.title}`}
+                    title="Clique et glisse vers le haut ou le bas"
+                  >
+                    <span>↕</span>
+                  </button>
+                )}
+
                 {index === 1 && <span className="side-mark top">1P</span>}
                 {index === 1 && <span className="side-mark middle">1P</span>}
               </section>
