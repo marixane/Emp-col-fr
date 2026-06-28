@@ -22,26 +22,6 @@
   transform: none;
 }
 
-.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(1):last-child) .exam-exercise {
-  height: 780px !important;
-}
-
-.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(2):last-child) .exam-exercise {
-  height: 365px !important;
-}
-
-.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(3):last-child) .exam-exercise {
+.preview-zone .second-page .exam-exercise {
   height: 215px !important;
-}
-
-.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(4):last-child) .exam-exercise {
-  height: 160px !important;
-}
-
-.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(5):last-child) .exam-exercise {
-  height: 128px !important;
-}
-
-.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(6):last-child) .exam-exercise {
-  height: 120px !important;
 }
