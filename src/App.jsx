@@ -760,8 +760,6 @@ function App() {
               </section>
             ))}
           </div>
-
-          <div className="page-number">Page 1</div>
         </div>
       </section>
     </main>
