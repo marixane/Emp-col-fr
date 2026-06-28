@@ -35,15 +35,11 @@ body,
 .preview-zone .second-page {
   margin-top: 56px;
   padding-top: 28px;
-  padding-bottom: 120px;
+  padding-bottom: 28px;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .preview-zone .second-page .exercise-list {
   transform: none;
-}
-
-.preview-zone .second-page .exam-exercise {
-  height: 215px !important;
 }
