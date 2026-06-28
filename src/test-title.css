@@ -12,4 +12,12 @@
 
 .preview-zone .second-page {
   margin-top: 56px;
+  padding-top: 28px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.preview-zone .second-page .exercise-list {
+  transform: scaleY(0.96);
+  transform-origin: top center;
 }
