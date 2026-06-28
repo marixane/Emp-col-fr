@@ -49,13 +49,19 @@
   content: 'Durée : ';
 }
 
+.draggable-photo {
+  position: relative;
+  z-index: 2;
+}
+
 .white-mask {
   position: absolute;
+  display: block;
   background: #fff;
-  border: 1px solid #999;
+  border: 3px dashed #2563eb;
   cursor: move;
-  z-index: 16;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  z-index: 30;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .mask-delete-button {
@@ -71,7 +77,7 @@
   color: #fff;
   font-size: 14px;
   line-height: 1;
-  z-index: 17;
+  z-index: 31;
 }
 
 .mask-resize-handle {
@@ -83,7 +89,7 @@
   border: 2px solid #111;
   background: #fff;
   cursor: nwse-resize;
-  z-index: 17;
+  z-index: 31;
 }
 
 .exam-page.is-exporting .photo-overlay-tools,
