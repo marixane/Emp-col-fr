@@ -136,7 +136,7 @@ button {
 }
 
 .phone-rule {
-  margin: 2px 0 6px;
+  margin: 2px 0 4px;
   text-align: right;
   font-size: 9px;
   font-weight: bold;
@@ -144,38 +144,32 @@ button {
 
 .exercise-list {
   display: grid;
-  gap: 8px;
-  height: 1010px;
+  gap: 2px;
+  height: 1006px;
   overflow: hidden;
+  padding-top: 16px;
 }
 
 .exam-exercise {
   border: 3px solid #111;
   border-radius: 12px;
-  padding: 24px 18px 18px;
+  padding: 22px 18px 16px;
   position: relative;
-  overflow: hidden;
-}
-
-.ex-1 {
-  height: 430px;
-}
-
-.ex-2,
-.ex-3 {
-  height: 230px;
+  overflow: visible;
 }
 
 .exercise-title {
   position: absolute;
-  top: -16px;
+  top: -15px;
   left: 18px;
   background: white;
   border: 3px solid #111;
   border-radius: 12px;
-  padding: 2px 14px;
+  padding: 3px 16px;
   font-weight: bold;
-  z-index: 2;
+  font-size: 16px;
+  z-index: 5;
+  box-shadow: 0 0 0 2px white;
 }
 
 .exercise-body {
