@@ -100,7 +100,7 @@ function App() {
   const [teacher, setTeacher] = useState('Prof : Marwane.R');
   const [exercises, setExercises] = useState(() => createExercises(3));
   const [secondPageExercises, setSecondPageExercises] = useState(() => createExercises(3));
-  const [isSecondPageEnabled, setIsSecondPageEnabled] = useState(true);
+  const [isSecondPageEnabled, setIsSecondPageEnabled] = useState(false);
   const [isTotalLocked, setIsTotalLocked] = useState(true);
   const [exerciseHeights, setExerciseHeights] = useState(() => [430, 278, 278]);
   const [secondPageHeights, setSecondPageHeights] = useState(() => createHeights(3, TOTAL_SECOND_PAGE_HEIGHT));
