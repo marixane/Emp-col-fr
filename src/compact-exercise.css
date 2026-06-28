@@ -107,6 +107,21 @@
   content: 'Durée : ';
 }
 
+.exam-page.is-exporting .inline-title-input,
+.html2canvas-container .inline-title-input {
+  height: 100% !important;
+  min-height: 52px !important;
+  overflow: hidden !important;
+  white-space: pre-wrap !important;
+  line-height: 1.18 !important;
+  text-align: center !important;
+  display: block !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
 .photo-overlay-tools {
   opacity: 0;
   pointer-events: none;
