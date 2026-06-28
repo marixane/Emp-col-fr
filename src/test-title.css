@@ -5,3 +5,7 @@
 .a4-page.exam-page {
   border: 0;
 }
+
+.three-cell-header {
+  grid-template-columns: 25% 50% 25%;
+}
