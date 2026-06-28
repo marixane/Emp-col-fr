@@ -40,6 +40,7 @@ body,
 }
 
 .preview-zone .second-page .exercise-list {
-  transform: scaleY(0.96);
-  transform-origin: top center;
+  gap: 2px;
+  align-content: start;
+  transform: none;
 }
