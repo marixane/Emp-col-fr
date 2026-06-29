@@ -172,3 +172,45 @@ body,
   background: #fff;
   font-weight: 900;
 }
+
+.white-mask {
+  position: absolute;
+  background: #fff;
+  cursor: move;
+  z-index: 5;
+}
+
+.mask-delete-button {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: pointer;
+  z-index: 6;
+}
+
+.mask-resize-handle {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #111;
+  cursor: nwse-resize;
+  z-index: 6;
+}
+
+.exam-page.is-exporting .mask-delete-button,
+.exam-page.is-exporting .mask-resize-handle,
+.html2canvas-container .mask-delete-button,
+.html2canvas-container .mask-resize-handle {
+  display: none !important;
+}
