@@ -12,6 +12,52 @@
   white-space: nowrap !important;
 }
 
+body.hide-page-date .page-date {
+  display: none !important;
+}
+
 .exam-page.is-exporting .page-date {
   color: #777777 !important;
+}
+
+.page-date-toggle {
+  width: 100% !important;
+  min-height: 50px !important;
+  height: 50px !important;
+  margin-top: 4px !important;
+  padding: 5px 6px 5px 32px !important;
+  border-radius: 9px !important;
+  align-self: stretch !important;
+  background: #ecfdf5 !important;
+  border: 1px solid #86efac !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
+  color: #065f46 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  text-align: left !important;
+  position: relative !important;
+}
+
+.page-date-toggle.off {
+  background: #ffffff !important;
+  border-color: #d1d5db !important;
+  color: #374151 !important;
+  opacity: 0.65 !important;
+}
+
+.page-date-toggle::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  width: 22px;
+  height: 38px;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  background:
+    linear-gradient(to bottom, #d1fae5 0 9px, transparent 9px),
+    linear-gradient(to right, transparent 0 5px, #9ca3af 5px 6px, transparent 6px 12px, #9ca3af 12px 13px, transparent 13px),
+    linear-gradient(to bottom, transparent 0 16px, #9ca3af 16px 17px, transparent 17px 24px, #9ca3af 24px 25px, transparent 25px 32px, #9ca3af 32px 33px, transparent 33px),
+    #ffffff;
 }
