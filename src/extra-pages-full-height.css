@@ -1,5 +1,19 @@
 @import './sequential-pages.css';
 
+.preview-zone {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(794px, 794px));
+  gap: 28px !important;
+  align-items: start !important;
+  justify-content: start !important;
+  padding: 18px 18px 60px !important;
+}
+
+.preview-zone .a4-page {
+  flex: none !important;
+  margin: 0 !important;
+}
+
 .preview-zone .second-page .exercise-list {
   height: 1061px !important;
   min-height: 1061px !important;
