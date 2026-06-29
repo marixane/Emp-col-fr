@@ -1,0 +1,14 @@
+.page-count-card .compact-control {
+  grid-template-columns: 20px 1fr 20px !important;
+}
+
+.page-count-card .compact-control strong {
+  font-size: 0 !important;
+  min-width: 58px !important;
+  white-space: nowrap !important;
+}
+
+.page-count-card .compact-control strong::before {
+  content: attr(data-count);
+  font-size: 11px !important;
+}
