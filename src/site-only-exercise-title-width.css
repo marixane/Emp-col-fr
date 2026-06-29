@@ -1,0 +1,8 @@
+.exam-page:not(.is-exporting) .exercise-title-controls {
+  padding-left: 12px !important;
+  padding-right: 18px !important;
+}
+
+.exam-page:not(.is-exporting) .exercise-title {
+  min-width: 520px !important;
+}
