@@ -86,14 +86,30 @@ body.arabic-mode .exam-page.has-bar-ribbon .bar-mark {
   font-weight: 800 !important;
 }
 
-body.arabic-mode .clickable-photo-zone,
-body.arabic-mode .photo-frame,
-body.arabic-mode .photo-content,
-body.arabic-mode .exercise-body img {
+body.arabic-mode .exam-exercise,
+body.arabic-mode .exam-exercise .exercise-body,
+body.arabic-mode .exam-exercise .clickable-photo-zone,
+body.arabic-mode .exam-exercise .photo-frame,
+body.arabic-mode .exam-exercise .photo-content {
+  overflow: hidden !important;
+  max-width: 100% !important;
+}
+
+body.arabic-mode .exam-exercise .clickable-photo-zone,
+body.arabic-mode .exam-exercise .photo-frame,
+body.arabic-mode .exam-exercise .photo-content {
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body.arabic-mode .exam-exercise img,
+body.arabic-mode .exam-exercise .photo-content img,
+body.arabic-mode .exam-exercise .clickable-photo-zone img {
   max-width: 100% !important;
   max-height: 100% !important;
-  overflow: hidden !important;
   object-fit: contain !important;
+  overflow: hidden !important;
 }
 
 body.arabic-mode .photo-overlay-tools {
