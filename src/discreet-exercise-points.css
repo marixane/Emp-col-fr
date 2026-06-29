@@ -7,13 +7,9 @@
 .exercise-title-controls .points-decoration {
   display: inline !important;
   color: #111111 !important;
-  font-size: 18px !important;
+  font-size: 0 !important;
   font-weight: 900 !important;
   line-height: 20px !important;
-}
-
-.exercise-title-controls .points-decoration {
-  font-size: 0 !important;
 }
 
 .exercise-title-controls .points-decoration:nth-of-type(2)::after {
@@ -32,23 +28,9 @@
   z-index: 2 !important;
 }
 
-.exercise-title-controls button:first-of-type {
-  margin-left: 2px !important;
-}
-
 .exercise-title-controls strong::before {
-  content: '' !important;
-  position: absolute !important;
-  left: -6px !important;
-  top: 50% !important;
-  width: calc(100% + 12px) !important;
-  height: 24px !important;
-  transform: translateY(-50%) !important;
-  border: 1.5px solid #111111 !important;
-  border-radius: 999px !important;
-  background: rgba(255, 255, 255, 0.94) !important;
-  z-index: -1 !important;
-  pointer-events: none !important;
+  display: none !important;
+  content: none !important;
 }
 
 .exercise-title-controls button {
@@ -69,8 +51,12 @@
   cursor: pointer !important;
 }
 
-.exercise-title-controls button:last-of-type {
+.exercise-title-controls button:first-of-type {
   margin-left: 2px !important;
+}
+
+.exercise-title-controls button:last-of-type {
+  margin-left: 6px !important;
   margin-right: 2px !important;
 }
 
@@ -80,8 +66,8 @@
 }
 
 .exercise-title-controls strong {
-  min-width: 68px !important;
-  padding: 0 8px !important;
+  min-width: auto !important;
+  padding: 0 5px !important;
   color: #111111 !important;
   font-size: 13px !important;
   font-weight: 800 !important;
