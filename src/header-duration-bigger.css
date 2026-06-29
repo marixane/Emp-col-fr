@@ -1,3 +1,16 @@
+.class-duration-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.class-duration-header .inline-class-input {
+  width: 100% !important;
+  text-align: center !important;
+}
+
 .tiny-duration-control {
   width: 170px !important;
   max-width: 170px !important;
@@ -7,6 +20,17 @@
   gap: 10px !important;
   justify-content: center !important;
   align-items: center !important;
+  align-self: center !important;
+  justify-self: center !important;
+  transform: translateX(0) !important;
+}
+
+.exam-page.is-exporting .class-duration-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 .exam-page.is-exporting .tiny-duration-control {
@@ -14,8 +38,9 @@
   max-width: 170px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  justify-self: center !important;
   align-self: center !important;
+  justify-self: center !important;
+  transform: translateX(0) !important;
 }
 
 .tiny-duration-control button {
