@@ -1,0 +1,17 @@
+.page-date {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 12px !important;
+  transform: translateX(-50%) !important;
+  color: #777777 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  z-index: 45 !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+}
+
+.exam-page.is-exporting .page-date {
+  color: #777777 !important;
+}
