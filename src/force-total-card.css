@@ -1,4 +1,4 @@
-label.total-mode-control {
+html body .app-shell .panel label.total-mode-control {
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
@@ -12,23 +12,37 @@ label.total-mode-control {
   padding: 5px 6px !important;
   border-radius: 9px !important;
   border: 1px solid #86efac !important;
+  outline: none !important;
   background: #ecfdf5 !important;
   color: #065f46 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
   font-size: 12px !important;
   font-weight: 900 !important;
   line-height: 1.15 !important;
   text-align: center !important;
   gap: 0 !important;
   cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
-label.total-mode-control:has(input:not(:checked)) {
+html body .app-shell .panel label.total-mode-control:hover,
+html body .app-shell .panel label.total-mode-control:focus,
+html body .app-shell .panel label.total-mode-control:focus-within {
+  border-color: #86efac !important;
+  outline: none !important;
+  background: #ecfdf5 !important;
+  color: #065f46 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
+}
+
+html body .app-shell .panel label.total-mode-control:has(input:not(:checked)) {
   background: #ffffff !important;
   border-color: #d1d5db !important;
   color: #374151 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
 }
 
-label.total-mode-control input {
+html body .app-shell .panel label.total-mode-control input {
   display: none !important;
 }
 
