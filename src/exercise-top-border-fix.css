@@ -1,6 +1,6 @@
 .exam-page:not(.second-page) .exam-exercise:first-child {
   border-top: 2px solid #111111 !important;
-  margin-top: 1mm !important;
+  margin-top: 0 !important;
   position: relative !important;
   overflow: visible !important;
 }
