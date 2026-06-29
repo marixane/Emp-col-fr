@@ -22,15 +22,29 @@
 .bar-buttons {
   opacity: 0 !important;
   pointer-events: auto !important;
-  padding: 12px 12px 10px !important;
-  margin: -12px -12px -10px !important;
+  padding: 9px 9px 8px !important;
+  margin: -9px -9px -8px !important;
   border-radius: 14px !important;
+  display: grid !important;
+  grid-template-columns: repeat(6, 32px) !important;
+  grid-template-rows: repeat(2, 18px) !important;
+  gap: 3px !important;
 }
 
 .bar-buttons:hover,
 .bar-buttons:focus-within {
   opacity: 1 !important;
   pointer-events: auto !important;
+}
+
+.bar-buttons button {
+  min-width: 32px !important;
+  width: 32px !important;
+  height: 18px !important;
+  padding: 0 2px !important;
+  border-radius: 5px !important;
+  font-size: 9px !important;
+  line-height: 16px !important;
 }
 
 .exam-page.is-exporting .bar-buttons {
