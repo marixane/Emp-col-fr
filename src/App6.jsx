@@ -42,7 +42,7 @@ export default function App6() {
   const [titleBottom, setTitleBottom] = useState(TITLE_BOTTOM);
   const [rightTop, setRightTop] = useState(RIGHT_TITLE_TOP);
   const [rightBottom, setRightBottom] = useState(RIGHT_TITLE_BOTTOM);
-  const [level, setLevel] = useState('Classes : 2 Bac SPF');
+  const [level, setLevel] = useState('Classe : 2 Bac SPF');
   const [duration, setDuration] = useState(3);
   const [pages, setPages] = useState([exs(3), ...Array.from({ length: MAX_PAGES - 1 }, () => [])]);
   const [hs, setHs] = useState([heights(3, H1), ...Array.from({ length: MAX_PAGES - 1 }, () => [])]);
