@@ -1,7 +1,7 @@
 function syncMenuTitle() {
   var title = document.querySelector('.panel .eyebrow');
   if (!title) return;
-  if (title.textContent !== 'Réglages') title.textContent = 'Réglages';
+  if (title.textContent !== 'Réglages :') title.textContent = 'Réglages :';
 }
 
 syncMenuTitle();
