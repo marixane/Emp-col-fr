@@ -112,18 +112,18 @@
 }
 
 .page-count-card .compact-control strong {
-  min-width: 86px !important;
+  min-width: 56px !important;
   height: 20px !important;
   line-height: 20px !important;
   padding: 0 !important;
-  font-size: 10.5px !important;
+  font-size: 11px !important;
   border-radius: 6px !important;
   white-space: nowrap !important;
 }
 
 .page-count-card .compact-control strong::after {
-  content: ' exercices';
-  font-size: 10.5px !important;
+  content: ' Exs';
+  font-size: 11px !important;
 }
 
 .panel > button:not(.pdf-lines-toggle):not(.bar-ribbon-toggle) {
