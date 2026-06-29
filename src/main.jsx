@@ -19,6 +19,7 @@ import './small-toggle-icons.css';
 import './live-lines-toggle.css';
 import './compact-side-menu.css';
 import './homework-hide-ribbon.js';
+import './points-buttons-hitbox.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
