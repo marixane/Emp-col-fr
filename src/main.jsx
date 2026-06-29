@@ -12,6 +12,7 @@ import './header-duration-bigger.css';
 import './points-buttons-below.css';
 import './mobile-responsive.css';
 import './bar-mark-vertical.css';
+import './bar-mark-click-guard.js';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
