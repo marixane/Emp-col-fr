@@ -19,6 +19,15 @@ body.arabic-mode .exercise-title {
   z-index: 80 !important;
 }
 
+body.arabic-mode .exam-page:not(.has-bar-ribbon) .exercise-body::before,
+body.arabic-mode .exam-page:not(.has-bar-ribbon) .exercise-body::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
 body.arabic-mode .exam-page.has-bar-ribbon .exercise-body::before {
   left: auto !important;
   right: -4mm !important;
