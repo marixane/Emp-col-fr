@@ -67,7 +67,7 @@
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0 !important;
+  gap: 2mm !important;
   padding: 2px 6px !important;
 }
 
@@ -100,7 +100,7 @@
 }
 
 .exam-page.is-exporting .split-title-cell {
-  gap: 0 !important;
+  gap: 2mm !important;
   padding-top: 1px !important;
   padding-bottom: 1px !important;
 }
