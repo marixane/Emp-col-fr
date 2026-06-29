@@ -15,9 +15,9 @@
 }
 
 .preview-zone .second-page .exercise-list {
-  margin-top: 6mm !important;
-  height: calc(1061px - 6mm) !important;
-  min-height: calc(1061px - 6mm) !important;
+  margin-top: 4mm !important;
+  height: calc(1061px - 4mm) !important;
+  min-height: calc(1061px - 4mm) !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 2px !important;
@@ -32,7 +32,7 @@
 }
 
 .preview-zone .second-page .exam-exercise:first-child {
-  margin-top: 6px !important;
+  margin-top: 2px !important;
 }
 
 .preview-zone .second-page .exam-exercise:last-child {
