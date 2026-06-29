@@ -51,6 +51,8 @@ const blankEx = () => ({ ...ex(0, 0), blank: true });
 const exs = (n) => pts(n).map((p, i) => ex(i, p));
 const heights = (n, h) => n ? Array.from({ length: n }, (_, i) => i === n - 1 ? h - Math.floor(h / n) * (n - 1) : Math.floor(h / n)) : [];
 const visibleCount = (p) => p.filter((e) => !e.blank).length;
+const barPointValue = (label) => Number(String(label ?? '').replace('p', '').replace(',', '.')) || 0;
+const barMarksTotal = (marks = []) => Math.round(marks.reduce((sum, mark) => sum + barPointValue(mark.label), 0) * 100) / 100;
 
 export default function App6() {
   const [kind, setKind] = useState('individual');
@@ -76,6 +78,7 @@ export default function App6() {
   const all = active.flatMap((i) => pages[i].filter((e) => !e.blank).map((e, j) => ({ e, page: i, index: pages[i].findIndex((item) => item.id === e.id), realIndex: j })));
   const total = Math.round(all.reduce((s, x) => s + x.e.points, 0) * 100) / 100;
   const startNum = (page) => pages.slice(0, page).reduce((s, p) => s + visibleCount(p), 1);
+  const canAddBarPoint = (e, label) => Math.round((barMarksTotal(e.barMarks) + barPointValue(label)) * 100) / 100 <= Number(e.points) + 0.001;
 
   const updateEx = (page, id, updates) => {
     setPages((cur) => cur.map((p, pi) => pi === page ? p.map((e) => e.id === id ? { ...e, ...updates } : e) : p));
@@ -174,7 +177,7 @@ export default function App6() {
   };
   const addBarMark = (page, id, label) => {
     const e = pages[page].find((item) => item.id === id);
-    if (!e) return;
+    if (!e || !canAddBarPoint(e, label)) return;
     const index = e.barMarks?.length ?? 0;
     updateEx(page, id, { barMarks: [...(e.barMarks ?? []), { id: `bar-${Date.now()}-${Math.random()}`, label, x: 0, y: 34 + index * 26 }] });
   };
@@ -263,7 +266,7 @@ export default function App6() {
     {!e.blank && i > 0 && <button type="button" className="resize-handle" onMouseDown={(ev) => startResize(ev, page, i)} aria-label="Modifier la hauteur" />}
     {!e.blank && <div className="exercise-title exercise-title-controls">{kind === 'homework' ? <span>Exercice {startNum(page) + visibleCount(pages[page].slice(0, i))}</span> : <><span>Exercice {startNum(page) + visibleCount(pages[page].slice(0, i))} : </span><span className="points-decoration">* (</span><button onClick={() => changePoint(page, i, -1)} disabled={!canChangePoint(page, i, -1)}>−</button><strong>{fmt(e.points)}</strong><button onClick={() => changePoint(page, i, 1)} disabled={!canChangePoint(page, i, 1)}>+</button><span className="points-decoration">) *</span></>}</div>}
     <div className="exercise-body clickable-photo-zone" onClick={() => !e.image && fileRefs.current[e.id]?.click()}>
-      {!e.blank && barRibbon && <div className="bar-buttons" onClick={(ev) => ev.stopPropagation()}>{BAR_POINTS.map((label) => <button key={label} type="button" onClick={() => addBarMark(page, e.id, label)}>{label}</button>)}</div>}
+      {!e.blank && barRibbon && <div className="bar-buttons" onClick={(ev) => ev.stopPropagation()}>{BAR_POINTS.map((label) => <button key={label} type="button" disabled={!canAddBarPoint(e, label)} onClick={() => addBarMark(page, e.id, label)}>{label}</button>)}</div>}
       {!e.blank && barRibbon && (e.barMarks ?? []).map((m) => <span className="bar-mark" key={m.id} onMouseDown={(ev) => startBarDrag(ev, page, e.id, m)} onDoubleClick={(ev) => { ev.preventDefault(); ev.stopPropagation(); deleteBarMark(page, e.id, m.id); }} style={{ left: `${m.x ?? 0}px`, top: `${m.y ?? 34}px` }}>{m.label}</span>)}
       {e.image && <div className="photo-overlay-tools" onClick={(ev) => ev.stopPropagation()}><button type="button" className="photo-tool-button" onClick={() => fileRefs.current[e.id]?.click()}>Changer photo</button><button type="button" className="photo-tool-button" onClick={() => addMask(page, e.id)}>Rectangle blanc</button><button type="button" className="photo-tool-button danger" onClick={() => clearImage(page, e.id)}>Supprimer</button><label className="photo-zoom-control">Zoom <input type="range" min="60" max="220" value={e.zoom ?? 100} onChange={(ev) => updateEx(page, e.id, { zoom: clamp(ev.target.value, 60, 220) })} /><span>{e.zoom ?? 100}%</span></label></div>}
       {e.image ? <><img className="draggable-photo" src={e.image.url ?? e.image} alt={e.image.name ?? 'exercice'} draggable="false" onMouseDown={(ev) => startPhotoDrag(ev, page, e)} style={{ transform: `translate(${e.x ?? 0}px, ${e.y ?? 0}px) scale(${(e.zoom ?? 100) / 100})` }} />{(e.masks ?? []).map((m) => <div className="white-mask" key={m.id} onMouseDown={(ev) => startMaskDrag(ev, page, e.id, m)} style={{ left: `${m.x}px`, top: `${m.y}px`, width: `${m.width}px`, height: `${m.height}px` }}><button type="button" className="mask-delete-button" onMouseDown={(ev) => ev.stopPropagation()} onClick={(ev) => { ev.stopPropagation(); deleteMask(page, e.id, m.id); }}>×</button><span className="mask-resize-handle" onMouseDown={(ev) => startMaskResize(ev, page, e.id, m)} /></div>)}</> : <div className="empty-zone">Clique ici pour choisir la photo</div>}
