@@ -157,6 +157,16 @@ function syncPageNumberLabels() {
   });
 }
 
+function syncMenuPageLabels() {
+  document.querySelectorAll('.page-count-card > label').forEach(function (node) {
+    var text = node.textContent || '';
+    var match = text.match(/(?:Page|الصفحة)\s*(\d+)/);
+    if (!match) return;
+    var next = window.__examLanguage === 'ar' ? 'الصفحة ' + match[1] : 'Page ' + match[1];
+    if (node.textContent !== next) node.textContent = next;
+  });
+}
+
 function syncDurationLabels() {
   document.querySelectorAll('.tiny-duration-control strong').forEach(function (duration) {
     var text = (duration.textContent || '').trim();
@@ -200,6 +210,7 @@ function syncLanguageMode() {
   syncLanguageButton();
   syncNotesLabel();
   syncPageNumberLabels();
+  syncMenuPageLabels();
   syncHeaderLanguage();
   bindDurationButtons();
   scheduleDurationSync();
@@ -215,6 +226,7 @@ new MutationObserver(function () {
   syncLanguageButton();
   syncNotesLabel();
   syncPageNumberLabels();
+  syncMenuPageLabels();
   syncHeaderLanguage();
   bindDurationButtons();
   scheduleDurationSync();
