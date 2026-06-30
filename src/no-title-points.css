@@ -8,7 +8,7 @@ body.no-title-points .exercise-title-controls {
   gap: 0 !important;
 }
 
-body.no-title-points .individual-toggle {
+.individual-toggle.active {
   background: #ecfdf5 !important;
   border-color: #86efac !important;
   color: #065f46 !important;
