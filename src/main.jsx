@@ -46,6 +46,7 @@ import './discreet-exercise-points.css';
 import './discreet-duration-control.css';
 import './fix-points-parentheses.js';
 import './pdf-exercise-points-clean.css';
+import './french-pdf-header-nudge.css';
 import './homework-exercise-title-fix.css';
 import './bar-ribbon-label.css';
 import './arabic-mode.css';
