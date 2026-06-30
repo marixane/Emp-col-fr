@@ -1,14 +1,1 @@
-body:not(.arabic-mode) .exam-header.three-cell-header .right-header-cell {
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-}
 
-body:not(.arabic-mode) .exam-header.three-cell-header .middle-header-cell {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
-}
-
-body:not(.arabic-mode) .exam-header.three-cell-header .left-header-cell {
-  grid-column: 3 !important;
-  grid-row: 1 !important;
-}
