@@ -49,6 +49,7 @@ import './homework-exercise-title-fix.css';
 import './bar-ribbon-label.css';
 import './arabic-mode.css';
 import './arabic-prof-line.css';
+import './french-header-swap.css';
 import './arabic-mode.js';
 
 createRoot(document.getElementById('root')).render(
