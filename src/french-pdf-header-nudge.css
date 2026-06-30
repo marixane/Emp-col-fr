@@ -7,3 +7,8 @@ body:not(.arabic-mode) .exam-page.is-exporting .right-line-top {
 body:not(.arabic-mode) .exam-page.is-exporting .inline-class-input {
   transform: translateY(2px) !important;
 }
+
+body.arabic-mode .exam-page.is-exporting .title-line-top,
+body.arabic-mode .exam-page.is-exporting .right-line-top {
+  transform: translateY(-2px) !important;
+}
