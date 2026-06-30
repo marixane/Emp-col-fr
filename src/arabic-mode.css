@@ -84,7 +84,7 @@ body.arabic-mode .resize-handle {
   left: auto !important;
   right: 40% !important;
   width: 60% !important;
-  height: 14px !important;
+  height: calc(14px + 1mm) !important;
   transform: translateY(calc(-50% + 3mm)) scaleX(-1) !important;
   border-radius: 0 !important;
   background: transparent !important;
