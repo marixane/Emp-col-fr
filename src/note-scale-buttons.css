@@ -6,9 +6,9 @@
 .note-scale-control {
   box-sizing: border-box !important;
   width: 100% !important;
-  min-height: 118px !important;
+  min-height: 104px !important;
   margin-top: 6px !important;
-  padding: 10px !important;
+  padding: 9px !important;
   border-radius: 12px !important;
   background: #ffffff !important;
   border: 1px solid #d1d5db !important;
@@ -16,28 +16,28 @@
 
 .note-scale-title {
   color: #374151 !important;
-  font-size: 15px !important;
+  font-size: 13px !important;
   font-weight: 950 !important;
-  line-height: 1.1 !important;
-  margin-bottom: 10px !important;
+  line-height: 1.05 !important;
+  margin-bottom: 8px !important;
   text-align: center !important;
 }
 
 .note-scale-buttons {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: 9px !important;
+  gap: 8px !important;
 }
 
 .note-scale-button {
-  height: 38px !important;
-  min-height: 38px !important;
-  padding: 0 8px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 7px !important;
   border-radius: 9px !important;
   border: 1px solid #d1d5db !important;
   background: #ffffff !important;
   color: #374151 !important;
-  font-size: 15px !important;
+  font-size: 13px !important;
   font-weight: 950 !important;
   line-height: 1 !important;
   cursor: pointer !important;
@@ -53,11 +53,11 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin-top: 12px !important;
-  padding-top: 4px !important;
-  min-height: 42px !important;
+  margin-top: 10px !important;
+  padding-top: 3px !important;
+  min-height: 36px !important;
   color: #111827 !important;
-  font-size: 34px !important;
+  font-size: 28px !important;
   font-weight: 950 !important;
   line-height: 1 !important;
   text-align: center !important;
