@@ -14,6 +14,13 @@ function updateDateInput() {
   if (input.value !== window.__pageDateValue) input.value = window.__pageDateValue;
 }
 
+function syncDateLabel() {
+  var title = document.querySelector('.page-date-title');
+  if (!title) return;
+  var next = window.__examLanguage === 'ar' ? 'التاريخ :' : 'Date :';
+  if (title.textContent !== next) title.textContent = next;
+}
+
 function togglePageDate() {
   window.__showPageDate = !window.__showPageDate;
   syncPageDates();
@@ -43,6 +50,7 @@ function syncPageDates() {
   });
 
   updateDateInput();
+  syncDateLabel();
 }
 
 function ensureDateControls() {
@@ -65,7 +73,7 @@ function ensureDateControls() {
 
     var title = document.createElement('span');
     title.className = 'page-date-title';
-    title.textContent = 'Date :';
+    title.textContent = window.__examLanguage === 'ar' ? 'التاريخ :' : 'Date :';
 
     var input = document.createElement('input');
     input.type = 'date';
@@ -113,6 +121,7 @@ function ensureDateControls() {
 function syncDateFeature() {
   ensureDateControls();
   syncPageDates();
+  syncDateLabel();
 }
 
 syncDateFeature();
