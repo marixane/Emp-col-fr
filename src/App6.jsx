@@ -10,7 +10,8 @@ const MIN_H = 120;
 const MIN_H_EXTRA = Number('5');
 const DURATIONS = ['30 min', '1 h', '1 h 30', '2 h', '2 h 30', '3 h', '3 h 30', '4 h'];
 const BAR_POINTS = ['0,25', '0,75', '1,25', '1,75', '2,25', '2,75', '0,5', '1', '1,5', '2', '2,5', '3'];
-const BAR_MARK_BOTTOM_GAP = 18;
+const BAR_MARK_TOP_GAP = 19;
+const BAR_MARK_BOTTOM_GAP = 37;
 const IND_TITLE_TOP = 'Devoir individuel';
 const HOME_TITLE_TOP = 'Devoir à la maison';
 const TITLE_MIDDLE = 'Mathématique';
@@ -19,7 +20,7 @@ const RIGHT_TITLE_TOP = 'Lycée El jamai ,Tanger';
 const RIGHT_TITLE_BOTTOM = 'N° : 1 Semestre : 1';
 
 const clamp = (v, a, b) => Math.min(Math.max(Number(v), a), b);
-const clampBarMarkY = (y, h) => clamp(y, 0, Math.max(0, Number(h || 0) - BAR_MARK_BOTTOM_GAP));
+const clampBarMarkY = (y, h) => clamp(y, BAR_MARK_TOP_GAP, Math.max(BAR_MARK_TOP_GAP, Number(h || 0) - BAR_MARK_BOTTOM_GAP));
 const textWeight = (text) => Array.from(String(text ?? '').trim()).reduce((sum, ch) => {
   if (ch === ' ') return sum + 0.35;
   if (',.;:!|'.includes(ch)) return sum + 0.25;
