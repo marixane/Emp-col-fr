@@ -123,8 +123,6 @@ function syncLanguageButton() {
       document.body.classList.toggle('no-title-points');
       var active = document.body.classList.contains('no-title-points');
       setIndividualHeaderTitle(active);
-      var barButton = document.querySelector('.bar-ribbon-toggle');
-      if (barButton) barButton.click();
       syncLanguageButton();
     });
 
