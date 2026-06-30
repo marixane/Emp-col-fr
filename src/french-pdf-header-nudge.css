@@ -1,0 +1,5 @@
+.exam-page.is-exporting:not(.arabic-mode) .title-line-top,
+body:not(.arabic-mode) .exam-page.is-exporting .title-line-top,
+body:not(.arabic-mode) .exam-page.is-exporting .right-line-top {
+  transform: translateY(1px) !important;
+}
