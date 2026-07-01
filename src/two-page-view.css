@@ -1,8 +1,9 @@
 :root {
-  --two-page-scale: 1;
-  --two-page-gap: 16px;
-  --two-page-page-w: calc(794px * var(--two-page-scale));
-  --two-page-page-h: calc(1123px * var(--two-page-scale));
+  --sheet-scale: 1;
+  --sheet-gap: 16px;
+  --sheet-columns: 1;
+  --sheet-page-w: calc(794px * var(--sheet-scale));
+  --sheet-page-h: calc(1123px * var(--sheet-scale));
 }
 
 .two-page-view-toggle {
@@ -83,31 +84,31 @@
   content: '2' !important;
 }
 
-body.two-page-view .app-shell {
+body .app-shell {
   align-items: flex-start !important;
-  gap: 10px !important;
-  padding-left: 6px !important;
 }
 
-body.two-page-view .panel {
+body .panel {
   flex: 0 0 180px !important;
   width: 180px !important;
   min-width: 180px !important;
   max-width: 180px !important;
   transform: none !important;
-  z-index: 50 !important;
+  position: relative !important;
+  z-index: 80 !important;
 }
 
-body.two-page-view .preview-zone {
+body .preview-zone {
   flex: 0 0 auto !important;
   display: grid !important;
-  grid-template-columns: repeat(2, var(--two-page-page-w)) !important;
-  grid-auto-rows: var(--two-page-page-h) !important;
-  column-gap: var(--two-page-gap) !important;
+  grid-template-columns: repeat(var(--sheet-columns), var(--sheet-page-w)) !important;
+  grid-auto-rows: var(--sheet-page-h) !important;
+  column-gap: var(--sheet-gap) !important;
   row-gap: 28px !important;
-  width: calc(var(--two-page-page-w) * 2 + var(--two-page-gap) + 8px) !important;
-  min-width: calc(var(--two-page-page-w) * 2 + var(--two-page-gap) + 8px) !important;
+  width: calc(var(--sheet-page-w) * var(--sheet-columns) + var(--sheet-gap) * (var(--sheet-columns) - 1) + 8px) !important;
+  min-width: calc(var(--sheet-page-w) * var(--sheet-columns) + var(--sheet-gap) * (var(--sheet-columns) - 1) + 8px) !important;
   max-width: none !important;
+  height: auto !important;
   overflow: visible !important;
   padding: 0 0 0 8px !important;
   margin: 0 !important;
@@ -116,19 +117,27 @@ body.two-page-view .preview-zone {
   background: #111827 !important;
 }
 
-body.two-page-view .preview-zone .a4-page,
-body.two-page-view .a4-page {
+body .preview-zone .a4-page,
+body .a4-page {
   width: 794px !important;
   height: 1123px !important;
   margin: 0 !important;
-  transform: scale(var(--two-page-scale)) !important;
+  transform: scale(var(--sheet-scale)) !important;
   transform-origin: top left !important;
   translate: 0 0 !important;
 }
 
-body.two-page-view .preview-zone .a4-page:last-child,
-body.two-page-view .a4-page:last-child {
+body .preview-zone .a4-page:last-child,
+body .a4-page:last-child {
   margin-bottom: 220px !important;
+}
+
+body:not(.two-page-view) {
+  --sheet-columns: 1;
+}
+
+body.two-page-view {
+  --sheet-columns: 2;
 }
 
 @media print {
@@ -136,14 +145,14 @@ body.two-page-view .a4-page:last-child {
     display: none !important;
   }
 
-  body.two-page-view .preview-zone {
+  body .preview-zone {
     display: block !important;
     transform: none !important;
     width: auto !important;
     min-width: 0 !important;
   }
 
-  body.two-page-view .a4-page {
+  body .a4-page {
     transform: none !important;
     margin: 0 !important;
   }
