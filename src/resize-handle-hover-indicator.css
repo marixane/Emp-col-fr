@@ -1,24 +1,29 @@
 .resize-handle {
-  cursor: ns-resize !important;
+  cursor: pointer !important;
+}
+
+.resize-handle:hover,
+.resize-handle:focus-visible {
+  cursor: pointer !important;
 }
 
 .resize-handle::before {
-  content: '\2195' !important;
+  content: '\261D' !important;
   position: absolute !important;
   top: 50% !important;
-  right: 16px !important;
+  right: 14px !important;
   transform: translateY(-50%) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 26px !important;
-  height: 26px !important;
+  width: 30px !important;
+  height: 30px !important;
   border-radius: 999px !important;
   background: #111827 !important;
   color: #ffffff !important;
   border: 2px solid #ffffff !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
-  font-size: 17px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  font-size: 20px !important;
   font-weight: 900 !important;
   line-height: 1 !important;
   opacity: 0 !important;
@@ -29,7 +34,12 @@
 .resize-handle:hover::before,
 .resize-handle:focus-visible::before {
   opacity: 1 !important;
-  transform: translateY(-50%) scale(1.05) !important;
+  transform: translateY(-50%) scale(1.08) !important;
+}
+
+.app-shell.is-resizing,
+.app-shell.is-resizing * {
+  cursor: pointer !important;
 }
 
 .app-shell.is-resizing .resize-handle::before {
