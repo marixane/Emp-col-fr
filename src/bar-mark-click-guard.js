@@ -1,13 +1,8 @@
 var gradingMarkActive = false;
-var gradingMarkStartedAt = 0;
 var gradingMarkBlockUntil = 0;
 
 function isGradingMark(target) {
   return target && target.closest && target.closest('.bar-mark');
-}
-
-function isBarRibbonArea(target) {
-  return target && target.closest && (target.closest('.bar-mark') || target.closest('.bar-buttons'));
 }
 
 function isPhotoZone(target) {
@@ -21,7 +16,6 @@ function blockNextPhotoClick(ms) {
 document.addEventListener('mousedown', function (event) {
   if (isGradingMark(event.target)) {
     gradingMarkActive = true;
-    gradingMarkStartedAt = Date.now();
     blockNextPhotoClick(700);
     event.stopPropagation();
   }
@@ -39,15 +33,7 @@ document.addEventListener('mouseup', function (event) {
 }, true);
 
 document.addEventListener('click', function (event) {
-  var shouldBlock = gradingMarkActive || Date.now() < gradingMarkBlockUntil || isBarRibbonArea(event.target);
-  if (shouldBlock && isPhotoZone(event.target)) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-    return;
-  }
-
-  if (isBarRibbonArea(event.target) && Date.now() - gradingMarkStartedAt < 900) {
+  if ((gradingMarkActive || Date.now() < gradingMarkBlockUntil) && isPhotoZone(event.target) && !isGradingMark(event.target)) {
     event.preventDefault();
     event.stopPropagation();
     if (event.stopImmediatePropagation) event.stopImmediatePropagation();
