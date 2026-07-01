@@ -85,27 +85,45 @@
 
 body.two-page-view .app-shell {
   align-items: flex-start !important;
+  gap: 10px !important;
+  padding-left: 6px !important;
+}
+
+body.two-page-view .panel {
+  flex: 0 0 180px !important;
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+  transform: none !important;
+  z-index: 50 !important;
 }
 
 body.two-page-view .preview-zone {
+  flex: 0 0 auto !important;
   display: grid !important;
   grid-template-columns: repeat(2, var(--two-page-page-w)) !important;
   grid-auto-rows: var(--two-page-page-h) !important;
   column-gap: var(--two-page-gap) !important;
   row-gap: 28px !important;
-  width: calc(var(--two-page-page-w) * 2 + var(--two-page-gap)) !important;
-  min-width: calc(var(--two-page-page-w) * 2 + var(--two-page-gap)) !important;
+  width: calc(var(--two-page-page-w) * 2 + var(--two-page-gap) + 8px) !important;
+  min-width: calc(var(--two-page-page-w) * 2 + var(--two-page-gap) + 8px) !important;
   max-width: none !important;
   overflow: visible !important;
-  padding-left: 4px !important;
+  padding: 0 0 0 8px !important;
+  margin: 0 !important;
   transform: none !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: #111827 !important;
 }
 
 body.two-page-view .preview-zone .a4-page,
 body.two-page-view .a4-page {
+  width: 794px !important;
+  height: 1123px !important;
   margin: 0 !important;
   transform: scale(var(--two-page-scale)) !important;
   transform-origin: top left !important;
+  translate: 0 0 !important;
 }
 
 body.two-page-view .preview-zone .a4-page:last-child,
