@@ -9,28 +9,37 @@ function isPhotoZone(target) {
   return target && target.closest && target.closest('.clickable-photo-zone');
 }
 
+function isFileInput(target) {
+  return target && target.matches && target.matches('input[type="file"]');
+}
+
 function blockNextPhotoClick(ms) {
-  gradingMarkBlockUntil = Date.now() + (ms || 500);
+  gradingMarkBlockUntil = Date.now() + (ms || 900);
+  window.__blockPhotoPickerUntil = gradingMarkBlockUntil;
 }
 
 document.addEventListener('mousedown', function (event) {
   if (isGradingMark(event.target)) {
     gradingMarkActive = true;
-    blockNextPhotoClick(900);
+    blockNextPhotoClick(1200);
   }
+}, true);
+
+document.addEventListener('mousemove', function () {
+  if (gradingMarkActive) blockNextPhotoClick(1200);
 }, true);
 
 document.addEventListener('mouseup', function () {
   if (gradingMarkActive) {
-    blockNextPhotoClick(900);
+    blockNextPhotoClick(1500);
     setTimeout(function () {
       gradingMarkActive = false;
-    }, 350);
+    }, 500);
   }
 }, true);
 
 document.addEventListener('click', function (event) {
-  if ((gradingMarkActive || Date.now() < gradingMarkBlockUntil) && isPhotoZone(event.target) && !isGradingMark(event.target)) {
+  if (Date.now() < gradingMarkBlockUntil && (isPhotoZone(event.target) || isFileInput(event.target))) {
     event.preventDefault();
     event.stopPropagation();
     if (event.stopImmediatePropagation) event.stopImmediatePropagation();
@@ -42,3 +51,9 @@ document.addEventListener('dragstart', function (event) {
     event.preventDefault();
   }
 }, true);
+
+HTMLInputElement.prototype.__barMarkGuardClick = HTMLInputElement.prototype.__barMarkGuardClick || HTMLInputElement.prototype.click;
+HTMLInputElement.prototype.click = function () {
+  if (this.type === 'file' && Date.now() < (window.__blockPhotoPickerUntil || 0)) return;
+  return HTMLInputElement.prototype.__barMarkGuardClick.apply(this, arguments);
+};
