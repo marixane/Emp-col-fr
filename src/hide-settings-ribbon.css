@@ -1,0 +1,27 @@
+.panel {
+  display: none !important;
+}
+
+.app-shell {
+  grid-template-columns: 1fr !important;
+  justify-content: center !important;
+}
+
+.preview-zone {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-content: center !important;
+}
+
+.a4-page .bar-ribbon-toggle,
+.a4-page .pdf-lines-toggle,
+.a4-page .language-toggle,
+.a4-page .individual-toggle,
+.a4-page .note-scale-buttons,
+.a4-page .preview-pdf-button,
+.a4-page .export-pdf-button,
+.a4-page .two-page-view-toggle {
+  pointer-events: auto !important;
+}
