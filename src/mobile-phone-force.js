@@ -6,6 +6,7 @@ function applyMobilePhoneForce() {
   var availableWidth = Math.max(240, viewportWidth - 18);
   var mobileScale = Math.min(1, Math.max(0.32, availableWidth / 794));
   var scaledWidth = Math.ceil(794 * mobileScale);
+  var sideMargin = Math.max(0, Math.floor((viewportWidth - scaledWidth) / 2));
   var mobileA4Gap = -Math.max(0, Math.round(1123 * (1 - mobileScale) - 40));
 
   var style = document.createElement('style');
@@ -196,9 +197,9 @@ function applyMobilePhoneForce() {
         max-height: 100vh !important;
         display: flex !important;
         flex-direction: column !important;
-        align-items: center !important;
+        align-items: flex-start !important;
         justify-content: flex-start !important;
-        justify-items: center !important;
+        justify-items: start !important;
         gap: 6px !important;
         padding: 0 0 40px 0 !important;
         margin: 0 !important;
@@ -217,7 +218,7 @@ function applyMobilePhoneForce() {
         width: 794px !important;
         min-width: 794px !important;
         max-width: 794px !important;
-        margin: 0 0 ${mobileA4Gap}px 0 !important;
+        margin: 0 0 ${mobileA4Gap}px ${sideMargin}px !important;
         flex: 0 0 auto !important;
         translate: 0 0 !important;
       }
