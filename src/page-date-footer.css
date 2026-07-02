@@ -7,26 +7,49 @@
   font-size: 12px !important;
   font-weight: 600 !important;
   line-height: 1 !important;
-  z-index: 45 !important;
-  pointer-events: none !important;
+  z-index: 80 !important;
+  pointer-events: auto !important;
   white-space: nowrap !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  font-family: inherit !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: inline !important;
+}
+
+.page-date:hover {
+  color: #2563eb !important;
+  background: transparent !important;
+  text-decoration: underline !important;
 }
 
 body.hide-page-date .page-date {
-  display: none !important;
+  display: inline !important;
 }
 
 .exam-page.is-exporting .page-date {
   color: #777777 !important;
+  background: transparent !important;
+  text-decoration: none !important;
 }
 
-.page-date-toggle {
+.page-date-toggle,
+.page-date-control,
+.page-date-title,
+.page-date-input,
+.page-date-toggle-button {
   display: none !important;
 }
 
 .panel {
   z-index: 200000 !important;
-  overflow: visible !important;
 }
 
 .preview-zone,
@@ -35,75 +58,9 @@ body.hide-page-date .page-date {
   z-index: 1 !important;
 }
 
-.page-date-control {
-  display: block !important;
-  width: 100% !important;
-  margin: 10px 0 0 !important;
-  padding: 8px !important;
-  border-radius: 10px !important;
-  background: #ffffff !important;
-  border: 1px solid #d1d5db !important;
-  color: #374151 !important;
-  font-size: 11px !important;
-  font-weight: 900 !important;
-  line-height: 1.1 !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
-  text-align: center !important;
-  order: 998 !important;
-  cursor: pointer !important;
-  position: relative !important;
-  z-index: 200001 !important;
-  overflow: visible !important;
-}
-
-.page-date-control.on {
-  background: #ecfdf5 !important;
-  border-color: #86efac !important;
-  color: #065f46 !important;
-  opacity: 1 !important;
-}
-
-.page-date-control.off {
-  background: #ffffff !important;
-  border-color: #d1d5db !important;
-  color: #374151 !important;
-  opacity: 0.75 !important;
-}
-
-.page-date-title {
-  display: block !important;
-  margin-bottom: 5px !important;
-  pointer-events: none !important;
-  text-align: center !important;
-}
-
-.page-date-input {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  height: 34px !important;
-  min-height: 34px !important;
-  margin-top: 0 !important;
-  padding: 4px 8px !important;
-  border: 1px solid #9ca3af !important;
-  border-radius: 7px !important;
-  background: #f9fafb !important;
-  color: #111827 !important;
-  font-size: 13px !important;
-  font-weight: 900 !important;
-  cursor: pointer !important;
-  text-align: center !important;
-}
-
-.page-date-control.on .page-date-input {
-  border-color: #86efac !important;
-  background: #ffffff !important;
-}
-
 .page-date-picker {
   display: none !important;
-  position: absolute !important;
-  left: 4px !important;
-  top: calc(100% + 6px) !important;
+  position: fixed !important;
   width: 258px !important;
   box-sizing: border-box !important;
   padding: 7px !important;
@@ -205,8 +162,4 @@ body.hide-page-date .page-date {
   border-color: #22c55e !important;
   color: #065f46 !important;
   box-shadow: inset 0 0 0 2px #16a34a !important;
-}
-
-.page-date-toggle-button {
-  display: none !important;
 }
