@@ -28,12 +28,19 @@ function clickExerciseCountButton(pageIndex, wanted) {
   });
   if (!button) return false;
   button.click();
-  setTimeout(syncExerciseLineControls, 70);
-  setTimeout(syncExerciseLineControls, 160);
+  setTimeout(syncExerciseLineControls, 60);
+  setTimeout(syncExerciseLineControls, 150);
+  setTimeout(syncExerciseLineControls, 280);
 
   if ((wanted === '-' || wanted === '−') && before === 1) {
     setTimeout(function () {
       if (getRealExerciseCount(pageIndex) !== 0) clickExerciseCountButton(pageIndex, '-');
+    }, 80);
+  }
+
+  if (wanted === '+' && before === 0) {
+    setTimeout(function () {
+      if (getRealExerciseCount(pageIndex) === 0) clickExerciseCountButton(pageIndex, '+');
     }, 80);
   }
 
