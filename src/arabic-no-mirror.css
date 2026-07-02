@@ -1,0 +1,23 @@
+body.arabic-mode .exam-page {
+  transform: scale(var(--sheet-scale, 1)) !important;
+  transform-origin: top left !important;
+}
+
+body.arabic-mode .exam-page > * {
+  transform: none !important;
+}
+
+body.arabic-mode .exam-page .page-number,
+body.arabic-mode .exam-page .page-date {
+  transform: translateX(-50%) !important;
+}
+
+body.arabic-mode .exam-page::after {
+  transform: none !important;
+}
+
+body.arabic-mode .exam-page.is-exporting,
+body.arabic-mode .a4-page.is-exporting,
+body.arabic-mode .exam-page.is-exporting > * {
+  transform: none !important;
+}
