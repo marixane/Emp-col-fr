@@ -19,8 +19,7 @@ function getFooterInfo(node, fallbackIndex) {
 }
 
 function getPageControlLeft(rect) {
-  var sideOffset = document.body && document.body.classList.contains('arabic-mode') ? -195 : 195;
-  return rect.left + rect.width / 2 + sideOffset;
+  return rect.left + rect.width / 2 + 195;
 }
 
 function getCountCards() {
