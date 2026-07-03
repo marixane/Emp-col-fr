@@ -1,18 +1,8 @@
-.preview-zone .second-page .exercise-list {
-  height: 955px !important;
-  min-height: 955px !important;
-  max-height: 955px !important;
-  overflow: hidden !important;
-}
-
 .preview-zone .second-page .exam-exercise {
-  height: auto !important;
-  flex: 1 1 0 !important;
   min-height: 15px !important;
-  max-height: none !important;
 }
 
 .preview-zone .second-page .exam-exercise:last-child {
-  flex: 1 1 0 !important;
+  flex: 1 1 15px !important;
   min-height: 15px !important;
 }
