@@ -61,6 +61,33 @@ function stretchExtraPageForPdf(clone) {
   });
 }
 
+function forceExerciseBottomFrame(clone) {
+  const exercises = Array.from(clone.querySelectorAll('.exam-exercise')).filter(function (exercise) {
+    return !exercise.classList.contains('blank-exercise');
+  });
+  const lastExercise = exercises[exercises.length - 1];
+  const body = lastExercise && lastExercise.querySelector('.exercise-body');
+  if (!body) return;
+
+  body.style.setProperty('position', 'relative', 'important');
+  body.style.setProperty('border-bottom', '2px solid #111', 'important');
+  body.style.setProperty('border-bottom-left-radius', '8px', 'important');
+  body.style.setProperty('border-bottom-right-radius', '8px', 'important');
+  body.style.setProperty('overflow', 'hidden', 'important');
+
+  const bottomLine = document.createElement('div');
+  bottomLine.className = 'pdf-exercise-bottom-frame';
+  bottomLine.style.setProperty('position', 'absolute', 'important');
+  bottomLine.style.setProperty('left', '0', 'important');
+  bottomLine.style.setProperty('right', '0', 'important');
+  bottomLine.style.setProperty('bottom', '0', 'important');
+  bottomLine.style.setProperty('height', '2px', 'important');
+  bottomLine.style.setProperty('background', '#111', 'important');
+  bottomLine.style.setProperty('z-index', '999999', 'important');
+  bottomLine.style.setProperty('pointer-events', 'none', 'important');
+  body.appendChild(bottomLine);
+}
+
 function preparePdfClone(original) {
   const clone = original.cloneNode(true);
   copyTextareaValues(original, clone);
@@ -92,6 +119,7 @@ function preparePdfClone(original) {
   clone.classList.toggle('no-pdf-lines', !!hideLines);
 
   if (original.classList.contains('second-page')) stretchExtraPageForPdf(clone);
+  forceExerciseBottomFrame(clone);
 
   return clone;
 }
@@ -112,12 +140,6 @@ function createHiddenPdfWorkspace() {
   workspace.style.setProperty('pointer-events', 'none', 'important');
   document.body.appendChild(workspace);
   return workspace;
-}
-
-function drawBottomBorder(pdf) {
-  pdf.setDrawColor(0, 0, 0);
-  pdf.setLineWidth(0.25);
-  pdf.line(0, 296.5, 210, 296.5);
 }
 
 async function makeOriginalPdf() {
@@ -152,7 +174,6 @@ async function makeOriginalPdf() {
 
       if (index) pdf.addPage('a4', 'portrait');
       pdf.addImage(canvas.toDataURL('image/jpeg', 1), 'JPEG', 0, 0, 210, 297);
-      drawBottomBorder(pdf);
     }
   } finally {
     if (!previousOriginalSize) document.body.classList.remove('pdf-original-size-now');
