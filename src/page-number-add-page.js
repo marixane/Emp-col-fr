@@ -8,7 +8,7 @@ function normalizeDigits(text) {
 
 function getFooterInfo(node, fallbackIndex) {
   var text = normalizeDigits((node && node.textContent) || '');
-  var match = text.match(/Page\s+(\d+)\s*\/\s*(\d+)/i);
+  var match = text.match(/(?:Page|الصفحة)\s*(\d+)\s*\/\s*(\d+)/i);
   if (match) return { current: Number(match[1]), total: Number(match[2]) };
 
   var nums = text.match(/\d+/g);
@@ -16,6 +16,11 @@ function getFooterInfo(node, fallbackIndex) {
 
   var totalPages = document.querySelectorAll('.a4-page').length || 1;
   return { current: Number(fallbackIndex || 0) + 1, total: totalPages };
+}
+
+function getPageControlLeft(rect) {
+  var sideOffset = document.body && document.body.classList.contains('arabic-mode') ? -195 : 195;
+  return rect.left + rect.width / 2 + sideOffset;
 }
 
 function getCountCards() {
@@ -134,7 +139,7 @@ function syncPageNumberControls() {
       document.body.appendChild(controls);
     }
 
-    controls.style.left = (rect.left + rect.width / 2 + 195) + 'px';
+    controls.style.left = getPageControlLeft(rect) + 'px';
     controls.style.top = (rect.bottom - 32) + 'px';
 
     var minus = controls.querySelector('.minus');
