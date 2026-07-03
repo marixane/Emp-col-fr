@@ -255,7 +255,20 @@ function applyMobilePhoneForce() {
         background: repeating-linear-gradient(white 0px, white 28px, #ddd 29px) !important;
       }
 
-      body .exam-page.has-bar-ribbon .exam-exercise .exercise-body::before,
+      body .exam-page.has-bar-ribbon .exam-exercise .exercise-body::before {
+        content: '' !important;
+        display: block !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: 29px !important;
+        background: rgba(15, 23, 42, 0.08) !important;
+        border-right: 1px solid rgba(15, 23, 42, 0.18) !important;
+        z-index: 1 !important;
+        pointer-events: none !important;
+      }
+
       body .exam-page.has-bar-ribbon .exam-exercise .exercise-body::after,
       body .exam-page.has-bar-ribbon .exam-exercise::before,
       body .exam-page.has-bar-ribbon .exam-exercise::after {
