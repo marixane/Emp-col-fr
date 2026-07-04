@@ -3,7 +3,7 @@ import { useState } from 'react';
 const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const HOURS = ['08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00'];
 
-const createCell = () => ({ text: '', room: 1 });
+const createCell = () => ({ text: '', room: 1, span: 1, hidden: false });
 const clampRoom = (value) => Math.min(Math.max(Number(value) || 1, 1), 80);
 
 const createRows = () => DAYS.map((day) => ({
@@ -11,7 +11,18 @@ const createRows = () => DAYS.map((day) => ({
   cells: HOURS.reduce((acc, hour) => ({ ...acc, [hour]: createCell() }), {})
 }));
 
-const normalizeCell = (cell) => typeof cell === 'object' && cell !== null ? cell : { text: String(cell ?? ''), room: 1 };
+const normalizeCell = (cell) => {
+  if (typeof cell === 'object' && cell !== null) {
+    return {
+      text: String(cell.text ?? ''),
+      room: clampRoom(cell.room ?? 1),
+      span: Math.max(Number(cell.span) || 1, 1),
+      hidden: Boolean(cell.hidden)
+    };
+  }
+
+  return { text: String(cell ?? ''), room: 1, span: 1, hidden: false };
+};
 
 export default function Tab() {
   const [school, setSchool] = useState('Établissement :');
@@ -54,6 +65,58 @@ export default function Tab() {
     } : row));
   };
 
+  const canExtendLeft = (row, hourIndex) => {
+    if (hourIndex <= 0) return false;
+    const cell = normalizeCell(row.cells[hours[hourIndex]]);
+    const previous = normalizeCell(row.cells[hours[hourIndex - 1]]);
+    return Boolean(cell.text.trim()) && !previous.hidden && !previous.text.trim();
+  };
+
+  const canExtendRight = (row, hourIndex) => {
+    const cell = normalizeCell(row.cells[hours[hourIndex]]);
+    const nextIndex = hourIndex + cell.span;
+    if (!cell.text.trim() || nextIndex >= hours.length) return false;
+    const next = normalizeCell(row.cells[hours[nextIndex]]);
+    return !next.hidden && !next.text.trim();
+  };
+
+  const extendCellLeft = (dayIndex, hourIndex) => {
+    if (hourIndex <= 0) return;
+    setRows((current) => current.map((row, i) => {
+      if (i !== dayIndex || !canExtendLeft(row, hourIndex)) return row;
+      const currentHour = hours[hourIndex];
+      const previousHour = hours[hourIndex - 1];
+      const cell = normalizeCell(row.cells[currentHour]);
+
+      return {
+        ...row,
+        cells: {
+          ...row.cells,
+          [previousHour]: { ...cell, span: cell.span + 1, hidden: false },
+          [currentHour]: { ...createCell(), hidden: true }
+        }
+      };
+    }));
+  };
+
+  const extendCellRight = (dayIndex, hourIndex) => {
+    setRows((current) => current.map((row, i) => {
+      if (i !== dayIndex || !canExtendRight(row, hourIndex)) return row;
+      const currentHour = hours[hourIndex];
+      const cell = normalizeCell(row.cells[currentHour]);
+      const nextHour = hours[hourIndex + cell.span];
+
+      return {
+        ...row,
+        cells: {
+          ...row.cells,
+          [currentHour]: { ...cell, span: cell.span + 1, hidden: false },
+          [nextHour]: { ...createCell(), hidden: true }
+        }
+      };
+    }));
+  };
+
   return <main className="cahier-shell clean-cahier-shell">
     <section className="cahier-preview-zone">
       <div className="a4-page cahier-page">
@@ -80,8 +143,15 @@ export default function Tab() {
               </td>
               {hours.map((hour, hourIndex) => {
                 const cell = normalizeCell(row.cells[hour]);
-                return <td key={`${hour}-${hourIndex}`}>
+                if (cell.hidden) return null;
+                const hasClass = Boolean(cell.text.trim());
+
+                return <td key={`${hour}-${hourIndex}`} colSpan={cell.span}>
                   <div className="timetable-cell-content">
+                    {hasClass && <div className="span-tools no-print">
+                      <button type="button" onClick={() => extendCellLeft(dayIndex, hourIndex)} disabled={!canExtendLeft(row, hourIndex)}>‹</button>
+                      <button type="button" onClick={() => extendCellRight(dayIndex, hourIndex)} disabled={!canExtendRight(row, hourIndex)}>›</button>
+                    </div>}
                     <textarea
                       value={cell.text}
                       onChange={(e) => updateCellText(dayIndex, hour, e.target.value)}
@@ -89,7 +159,7 @@ export default function Tab() {
                       placeholder="Classe / matière"
                       rows="4"
                     />
-                    <label className="room-control">
+                    {hasClass && <label className="room-control">
                       <span>Salle</span>
                       <input
                         type="number"
@@ -99,7 +169,7 @@ export default function Tab() {
                         onChange={(e) => updateRoom(dayIndex, hour, e.target.value)}
                         onKeyDown={validateOnEnter}
                       />
-                    </label>
+                    </label>}
                   </div>
                 </td>;
               })}
