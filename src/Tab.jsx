@@ -3,10 +3,15 @@ import { useState } from 'react';
 const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const HOURS = ['08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00'];
 
+const createCell = () => ({ text: '', room: 1 });
+const clampRoom = (value) => Math.min(Math.max(Number(value) || 1, 1), 80);
+
 const createRows = () => DAYS.map((day) => ({
   day,
-  cells: HOURS.reduce((acc, hour) => ({ ...acc, [hour]: '' }), {})
+  cells: HOURS.reduce((acc, hour) => ({ ...acc, [hour]: createCell() }), {})
 }));
+
+const normalizeCell = (cell) => typeof cell === 'object' && cell !== null ? cell : { text: String(cell ?? ''), room: 1 };
 
 export default function Tab() {
   const [school, setSchool] = useState('Établissement :');
@@ -25,7 +30,7 @@ export default function Tab() {
     const oldHour = hours[index];
     setHours((current) => current.map((hour, i) => i === index ? value : hour));
     setRows((current) => current.map((row) => {
-      const nextCells = { ...row.cells, [value]: row.cells[oldHour] ?? '' };
+      const nextCells = { ...row.cells, [value]: normalizeCell(row.cells[oldHour]) };
       delete nextCells[oldHour];
       return { ...row, cells: nextCells };
     }));
@@ -35,10 +40,17 @@ export default function Tab() {
     setRows((current) => current.map((row, i) => i === index ? { ...row, day: value } : row));
   };
 
-  const updateCell = (dayIndex, hour, value) => {
+  const updateCellText = (dayIndex, hour, value) => {
     setRows((current) => current.map((row, i) => i === dayIndex ? {
       ...row,
-      cells: { ...row.cells, [hour]: value }
+      cells: { ...row.cells, [hour]: { ...normalizeCell(row.cells[hour]), text: value } }
+    } : row));
+  };
+
+  const updateRoom = (dayIndex, hour, value) => {
+    setRows((current) => current.map((row, i) => i === dayIndex ? {
+      ...row,
+      cells: { ...row.cells, [hour]: { ...normalizeCell(row.cells[hour]), room: clampRoom(value) } }
     } : row));
   };
 
@@ -66,15 +78,31 @@ export default function Tab() {
               <td className="hour-cell day-cell">
                 <textarea value={row.day} onChange={(e) => updateDay(dayIndex, e.target.value)} onKeyDown={validateOnEnter} rows="2" />
               </td>
-              {hours.map((hour, hourIndex) => <td key={`${hour}-${hourIndex}`}>
-                <textarea
-                  value={row.cells[hour] ?? ''}
-                  onChange={(e) => updateCell(dayIndex, hour, e.target.value)}
-                  onKeyDown={validateOnEnter}
-                  placeholder="Classe / matière / salle"
-                  rows="4"
-                />
-              </td>)}
+              {hours.map((hour, hourIndex) => {
+                const cell = normalizeCell(row.cells[hour]);
+                return <td key={`${hour}-${hourIndex}`}>
+                  <div className="timetable-cell-content">
+                    <textarea
+                      value={cell.text}
+                      onChange={(e) => updateCellText(dayIndex, hour, e.target.value)}
+                      onKeyDown={validateOnEnter}
+                      placeholder="Classe / matière"
+                      rows="4"
+                    />
+                    <label className="room-control">
+                      <span>Salle</span>
+                      <input
+                        type="number"
+                        min="1"
+                        max="80"
+                        value={cell.room}
+                        onChange={(e) => updateRoom(dayIndex, hour, e.target.value)}
+                        onKeyDown={validateOnEnter}
+                      />
+                    </label>
+                  </div>
+                </td>;
+              })}
             </tr>)}
           </tbody>
         </table>
