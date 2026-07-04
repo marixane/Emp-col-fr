@@ -269,8 +269,17 @@ body.cahier-tab-active .exercise-line-count-overlay {
 .timetable-cell-content.colored-cell .room-control {
   position: static;
   grid-row: 3;
-  justify-self: center;
-  align-self: center;
+  justify-self: stretch;
+  align-self: stretch;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.38);
+  font-size: 10px;
+  color: rgba(17, 17, 17, 0.9);
 }
 
 .room-control input {
@@ -285,6 +294,13 @@ body.cahier-tab-active .exercise-line-count-overlay {
   font-weight: bold;
   text-align: center;
   outline: none;
+}
+
+.timetable-cell-content.colored-cell .room-control input {
+  width: 36px;
+  height: 18px;
+  font-size: 11px;
+  color: #111;
 }
 
 .room-control input:focus {
