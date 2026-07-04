@@ -33,6 +33,8 @@ export default function Tab() {
   const [rows, setRows] = useState(createRows);
   const [copiedCell, setCopiedCell] = useState(null);
   const [selectedCell, setSelectedCell] = useState(null);
+  const [draggedCell, setDraggedCell] = useState(null);
+  const [dragOverCell, setDragOverCell] = useState(null);
 
   const validateOnEnter = (event) => {
     if (event.key !== 'Enter') return;
@@ -96,6 +98,23 @@ export default function Tab() {
     return true;
   };
 
+  const duplicateCellTo = (dayIndex, hourIndex, cellToPaste) => {
+    setRows((current) => current.map((row, i) => {
+      if (i !== dayIndex || !canPasteCell(row, hourIndex, cellToPaste)) return row;
+      const pasted = cloneCell(cellToPaste);
+      const nextCells = { ...row.cells, [hours[hourIndex]]: pasted };
+
+      for (let index = hourIndex + 1; index < hourIndex + pasted.span; index += 1) {
+        nextCells[hours[index]] = { ...createCell(), hidden: true };
+      }
+
+      return { ...row, cells: nextCells };
+    }));
+
+    setCopiedCell(cloneCell(cellToPaste));
+    setSelectedCell(`${dayIndex}-${hourIndex}`);
+  };
+
   const handleCellClick = (dayIndex, hourIndex, cell) => {
     const normalized = normalizeCell(cell);
     const key = `${dayIndex}-${hourIndex}`;
@@ -107,20 +126,36 @@ export default function Tab() {
     }
 
     if (!copiedCell) return;
+    duplicateCellTo(dayIndex, hourIndex, copiedCell);
+  };
 
-    setRows((current) => current.map((row, i) => {
-      if (i !== dayIndex || !canPasteCell(row, hourIndex, copiedCell)) return row;
-      const pasted = cloneCell(copiedCell);
-      const nextCells = { ...row.cells, [hours[hourIndex]]: pasted };
+  const handleDragStart = (event, dayIndex, hourIndex, cell) => {
+    const normalized = normalizeCell(cell);
+    if (!normalized.text.trim()) {
+      event.preventDefault();
+      return;
+    }
 
-      for (let index = hourIndex + 1; index < hourIndex + pasted.span; index += 1) {
-        nextCells[hours[index]] = { ...createCell(), hidden: true };
-      }
-
-      return { ...row, cells: nextCells };
-    }));
-
+    event.dataTransfer.effectAllowed = 'copy';
+    event.dataTransfer.setData('text/plain', normalized.text);
+    setDraggedCell(cloneCell(normalized));
+    setCopiedCell(cloneCell(normalized));
     setSelectedCell(`${dayIndex}-${hourIndex}`);
+  };
+
+  const handleDragOver = (event, dayIndex, hourIndex, row, hasClass) => {
+    if (!draggedCell || hasClass || !canPasteCell(row, hourIndex, draggedCell)) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    setDragOverCell(`${dayIndex}-${hourIndex}`);
+  };
+
+  const handleDrop = (event, dayIndex, hourIndex, row, hasClass) => {
+    if (!draggedCell || hasClass || !canPasteCell(row, hourIndex, draggedCell)) return;
+    event.preventDefault();
+    duplicateCellTo(dayIndex, hourIndex, draggedCell);
+    setDraggedCell(null);
+    setDragOverCell(null);
   };
 
   const extendCellLeft = (dayIndex, hourIndex) => {
@@ -209,12 +244,22 @@ export default function Tab() {
                 const hasClass = Boolean(cell.text.trim());
                 const cellKey = `${dayIndex}-${hourIndex}`;
                 const canPasteHere = !hasClass && copiedCell && canPasteCell(row, hourIndex, copiedCell);
+                const canDropHere = !hasClass && draggedCell && canPasteCell(row, hourIndex, draggedCell);
 
                 return <td key={`${hour}-${hourIndex}`} colSpan={cell.span}>
                   <div
-                    className={`timetable-cell-content ${selectedCell === cellKey ? 'selected-cell' : ''} ${canPasteHere ? 'paste-ready-cell' : ''}`}
+                    className={`timetable-cell-content ${hasClass ? 'draggable-cell' : ''} ${selectedCell === cellKey ? 'selected-cell' : ''} ${canPasteHere ? 'paste-ready-cell' : ''} ${canDropHere || dragOverCell === cellKey ? 'drop-ready-cell' : ''}`}
+                    draggable={hasClass}
+                    onDragStart={(e) => handleDragStart(e, dayIndex, hourIndex, cell)}
+                    onDragEnd={() => {
+                      setDraggedCell(null);
+                      setDragOverCell(null);
+                    }}
+                    onDragOver={(e) => handleDragOver(e, dayIndex, hourIndex, row, hasClass)}
+                    onDragLeave={() => setDragOverCell(null)}
+                    onDrop={(e) => handleDrop(e, dayIndex, hourIndex, row, hasClass)}
                     onClick={() => handleCellClick(dayIndex, hourIndex, cell)}
-                    title={hasClass ? 'Cliquer pour copier cette cellule' : copiedCell ? 'Cliquer pour coller ici' : ''}
+                    title={hasClass ? 'Glisser cette cellule pour la dupliquer' : copiedCell ? 'Cliquer ou déposer ici pour coller' : ''}
                   >
                     {hasClass && <div className="span-tools no-print" onClick={(e) => e.stopPropagation()}>
                       <button type="button" onClick={() => extendCellLeft(dayIndex, hourIndex)} disabled={!canExtendLeft(row, hourIndex)}>‹</button>
@@ -225,6 +270,7 @@ export default function Tab() {
                       value={cell.text}
                       onChange={(e) => updateCellText(dayIndex, hour, e.target.value)}
                       onClick={(e) => e.stopPropagation()}
+                      onDragStart={(e) => e.preventDefault()}
                       onKeyDown={validateOnEnter}
                       placeholder={copiedCell ? 'Cliquer ici pour coller' : 'Classe / matière'}
                       rows="4"
