@@ -22,6 +22,10 @@
   padding: 24px;
 }
 
+.clean-cahier-shell {
+  justify-content: center;
+}
+
 .cahier-panel {
   width: 380px;
   background: white;
@@ -36,6 +40,10 @@
 .cahier-preview-zone {
   flex: 1;
   overflow: auto;
+}
+
+.clean-cahier-shell .cahier-preview-zone {
+  flex: 0 0 auto;
 }
 
 .cahier-page {
