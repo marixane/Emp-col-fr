@@ -1,10 +1,3 @@
-html,
-body,
-#root {
-  height: 100%;
-  overflow: hidden;
-}
-
 body.cahier-tab-active .a4-proxy-control,
 body.cahier-tab-active .a4-bar-proxy,
 body.cahier-tab-active .a4-lines-proxy,
@@ -21,13 +14,27 @@ body.cahier-tab-active .exercise-line-count-overlay {
   pointer-events: none !important;
 }
 
+body.devoir-tab-active .a4-proxy-control,
+body.devoir-tab-active .a4-bar-proxy,
+body.devoir-tab-active .a4-lines-proxy,
+body.devoir-tab-active .a4-lang-proxy,
+body.devoir-tab-active .a4-free-proxy,
+body.devoir-tab-active .a4-note-toggle-proxy,
+body.devoir-tab-active .a4-footer-preview,
+body.devoir-tab-active .a4-footer-export,
+body.devoir-tab-active .a4-footer-two-page,
+body.devoir-tab-active .page-number-safe-controls,
+body.devoir-tab-active .exercise-line-count-overlay {
+  display: inline-flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
 .app-tabs {
   display: flex;
   gap: 10px;
-  height: 44px;
-  padding: 8px 16px 0;
+  padding: 14px 24px 0;
   background: #eee;
-  box-sizing: border-box;
 }
 
 .app-tabs button {
@@ -43,16 +50,12 @@ body.cahier-tab-active .exercise-line-count-overlay {
 
 .cahier-shell {
   display: flex;
-  gap: 0;
-  height: calc(100vh - 44px);
-  padding: 6px;
-  overflow: hidden;
-  box-sizing: border-box;
+  gap: 24px;
+  padding: 24px;
 }
 
 .clean-cahier-shell {
   justify-content: center;
-  align-items: center;
 }
 
 .cahier-panel {
@@ -68,39 +71,31 @@ body.cahier-tab-active .exercise-line-count-overlay {
 
 .cahier-preview-zone {
   flex: 1;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: auto;
 }
 
 .clean-cahier-shell .cahier-preview-zone {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
 }
 
 .cahier-page {
-  width: min(calc(100vw - 12px), calc((100vh - 56px) * 0.707));
-  height: min(calc(100vh - 56px), calc((100vw - 12px) * 1.414));
-  padding: 10px;
-  box-sizing: border-box;
+  padding: 24px;
   font-family: Arial, sans-serif;
   color: #111;
-  overflow: hidden;
 }
 
 .cahier-header {
   display: grid;
   grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 5px;
+  gap: 8px;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
 }
 
 .cahier-header h2 {
   margin: 0;
   text-align: center;
-  font-size: 20px;
+  font-size: 28px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -108,14 +103,12 @@ body.cahier-tab-active .exercise-line-count-overlay {
 .cahier-header input {
   width: 100%;
   margin: 0;
-  padding: 5px;
   border: 1px solid #111;
   border-radius: 0;
   background: white;
   color: #111;
   font-weight: bold;
-  font-size: 11px;
-  box-sizing: border-box;
+  font-size: 14px;
 }
 
 .cahier-header input:nth-of-type(3) {
@@ -127,55 +120,54 @@ body.cahier-tab-active .exercise-line-count-overlay {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .timetable-table th,
 .timetable-table td {
-  border: 1.5px solid #111;
+  border: 2px solid #111;
   padding: 0;
   vertical-align: top;
 }
 
 .timetable-table th {
-  height: 28px;
+  height: 38px;
   background: #f4f4f4;
   text-align: center;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .timetable-table th:first-child,
 .timetable-table td:first-child {
-  width: 64px;
+  width: 92px;
 }
 
 .timetable-table textarea {
   width: 100%;
-  min-height: 48px;
+  min-height: 72px;
   margin: 0;
-  padding: 4px;
+  padding: 7px;
   border: 0;
   border-radius: 0;
   resize: none;
   background: transparent;
   color: #111;
   font-family: Arial, sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.25;
   outline: none;
-  box-sizing: border-box;
 }
 
 .timetable-table .hour-cell textarea {
-  min-height: 48px;
+  min-height: 72px;
   text-align: center;
   font-weight: bold;
 }
 
 .timetable-cell-content {
   position: relative;
-  min-height: 58px;
+  min-height: 92px;
   cursor: default;
 }
 
@@ -196,12 +188,12 @@ body.cahier-tab-active .exercise-line-count-overlay {
 }
 
 .timetable-cell-content textarea {
-  min-height: 58px;
-  padding: 20px 18px 19px;
+  min-height: 92px;
+  padding: 20px 20px 28px;
 }
 
 .selected-cell {
-  box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.9);
+  box-shadow: inset 0 0 0 3px rgba(37, 99, 235, 0.9);
 }
 
 .drop-ready-cell {
@@ -210,29 +202,29 @@ body.cahier-tab-active .exercise-line-count-overlay {
 
 .room-control {
   position: absolute;
-  right: 2px;
-  bottom: 2px;
+  right: 4px;
+  bottom: 3px;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   margin: 0;
-  padding: 1px 2px;
-  border-radius: 3px;
+  padding: 1px 4px;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.55);
   color: rgba(17, 17, 17, 0.68);
-  font-size: 8px;
+  font-size: 10px;
   font-weight: bold;
 }
 
 .room-control input {
-  width: 28px;
-  height: 16px;
+  width: 38px;
+  height: 20px;
   margin: 0;
-  padding: 0 1px;
+  padding: 0 2px;
   border: 0;
   background: transparent;
   color: rgba(17, 17, 17, 0.78);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: bold;
   text-align: center;
   outline: none;
@@ -245,9 +237,9 @@ body.cahier-tab-active .exercise-line-count-overlay {
 
 .span-tools {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  right: 2px;
+  top: 3px;
+  left: 4px;
+  right: 4px;
   z-index: 2;
   display: flex;
   gap: 2px;
@@ -260,8 +252,8 @@ body.cahier-tab-active .exercise-line-count-overlay {
 }
 
 .span-tools button {
-  width: 21px;
-  height: 18px;
+  width: 24px;
+  height: 20px;
   min-width: 0;
   margin-top: 0;
   padding: 0;
@@ -269,9 +261,9 @@ body.cahier-tab-active .exercise-line-count-overlay {
   border-radius: 3px;
   background: white;
   color: #111;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
-  line-height: 16px;
+  line-height: 18px;
   pointer-events: auto;
 }
 
@@ -288,7 +280,7 @@ body.cahier-tab-active .exercise-line-count-overlay {
 .span-tools .span-remove-button {
   background: #111;
   color: white;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .span-tools .span-remove-button:hover {
@@ -299,26 +291,18 @@ body.cahier-tab-active .exercise-line-count-overlay {
 .cahier-footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 18px;
+  margin-top: 22px;
   font-weight: bold;
-  font-size: 11px;
 }
 
 .cahier-footer span {
-  min-height: 32px;
-  border: 1.5px solid #111;
-  padding: 6px;
+  min-height: 58px;
+  border: 2px solid #111;
+  padding: 10px;
 }
 
 @media print {
-  html,
-  body,
-  #root {
-    height: auto;
-    overflow: visible;
-  }
-
   body {
     background: white;
   }
@@ -331,7 +315,6 @@ body.cahier-tab-active .exercise-line-count-overlay {
   .cahier-shell,
   .cahier-preview-zone {
     display: block;
-    height: auto;
     padding: 0;
     overflow: visible;
   }
