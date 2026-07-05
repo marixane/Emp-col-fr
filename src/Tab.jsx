@@ -24,11 +24,10 @@ const HOLIDAY_RANGES = [
   { start: '03/05', end: '10/05', text: 'Vacances intermédiaires 4' }
 ];
 const SCHOOL_PROGRESS_FLAGS = [
-  { date: '19/10', label: 'Vacances 1' },
-  { date: '07/12', label: 'Vacances 2' },
-  { date: '25/01', label: 'Mi-année' },
-  { date: '15/03', label: 'Vacances 3' },
-  { date: '03/05', label: 'Vacances 4' }
+  { date: '19/10', label: 'Vacances intermédiaires 1' },
+  { date: '07/12', label: 'Vacances intermédiaires 2' },
+  { date: '15/03', label: 'Vacances intermédiaires 3' },
+  { date: '03/05', label: 'Vacances intermédiaires 4' }
 ];
 
 const createCell = () => ({ text: '', room: 1, span: 1, hidden: false });
@@ -80,12 +79,11 @@ const getSchoolYear = () => {
 };
 const getSchoolProgressBounds = () => {
   const startYear = getSchoolStartYear();
-  return { start: new Date(startYear, 8, 1), end: new Date(startYear + 1, 5, 30) };
+  return { start: new Date(startYear, 8, 1), end: new Date(startYear + 1, 6, 31) };
 };
-const getSchoolProgressPercent = () => {
+const getSchoolProgressPercentForDate = (date) => {
   const { start, end } = getSchoolProgressBounds();
-  const today = new Date();
-  const percent = ((today - start) / (end - start)) * 100;
+  const percent = ((date - start) / (end - start)) * 100;
   return Math.min(100, Math.max(0, Math.round(percent)));
 };
 const getMonthDateAsSchoolDate = (monthDate) => {
@@ -98,6 +96,7 @@ const getFlagPercent = (dateText) => {
   const { start, end } = getSchoolProgressBounds();
   return Math.min(100, Math.max(0, ((flagDate - start) / (end - start)) * 100));
 };
+const getPageProgressPercent = (entries) => getSchoolProgressPercentForDate(getMonthDateAsSchoolDate(entries?.[0]?.progressDate || '01/09'));
 const createRows = () => DAYS.map((day) => ({ day, cells: HOURS.reduce((acc, hour) => ({ ...acc, [hour]: createCell() }), {}) }));
 const getHourStart = (hour) => String(hour ?? '').split('-')[0].trim();
 const getMondayBasedDayIndex = (date) => (date.getDay() + 6) % 7;
@@ -148,7 +147,6 @@ export default function Tab() {
   const [manualGroups, setManualGroups] = useState(null);
   const [draggedClass, setDraggedClass] = useState(null);
   const schoolYear = getSchoolYear();
-  const schoolProgress = getSchoolProgressPercent();
 
   const validateOnEnter = (event) => {
     if (event.key === 'Enter') {
@@ -232,13 +230,13 @@ export default function Tab() {
         }
         if (!rangeSessions.length) return null;
         const endDate = getMonthDateAsSchoolDate(holidayRange.end);
-        return { date: `${getDisplayDay(date, rows)} ${holidayRange.start} - ${getDisplayDay(endDate, rows)} ${holidayRange.end}`, sessions: rangeSessions, text: holidayRange.text, isHoliday: true, color: HOMEWORK_COLORS[dayIndex % HOMEWORK_COLORS.length] };
+        return { date: `${getDisplayDay(date, rows)} ${holidayRange.start} - ${getDisplayDay(endDate, rows)} ${holidayRange.end}`, sessions: rangeSessions, text: holidayRange.text, isHoliday: true, progressDate: holidayRange.start, color: HOMEWORK_COLORS[dayIndex % HOMEWORK_COLORS.length] };
       }
 
       if (dayIndex >= rows.length || !classSet.size) return null;
       const sessions = (sessionsByDay[dayIndex] ?? []).filter((session) => classSet.has(session.className));
       if (!sessions.length) return null;
-      return { date: `${getDisplayDay(date, rows)} ${monthDate}`, sessions, text: DOT_TEXT, isHoliday: false, color: HOMEWORK_COLORS[dayIndex % HOMEWORK_COLORS.length] };
+      return { date: `${getDisplayDay(date, rows)} ${monthDate}`, sessions, text: DOT_TEXT, isHoliday: false, progressDate: monthDate, color: HOMEWORK_COLORS[dayIndex % HOMEWORK_COLORS.length] };
     }).filter(Boolean);
 
     return { title: GROUP_TITLES[groupIndex], color: GROUP_COLORS[groupIndex], pages: chunkEntries(entries, 5) };
@@ -385,10 +383,10 @@ export default function Tab() {
           <div style={groupHomeworkTitleStyle}>{group.title}</div>
           <div style={progressWrapStyle}>
             <div style={progressBarStyle}>
-              <div style={{ ...progressFillStyle, width: `${schoolProgress}%` }} />
+              <div style={{ ...progressFillStyle, width: `${getPageProgressPercent(pageEntries)}%` }} />
               {SCHOOL_PROGRESS_FLAGS.map((flag) => <span key={flag.date} style={{ ...progressFlagStyle, left: `${getFlagPercent(flag.date)}%` }} title={flag.label}>⚑</span>)}
             </div>
-            <div style={progressPercentStyle}>{schoolProgress}%</div>
+            <div style={progressPercentStyle}>{getPageProgressPercent(pageEntries)}%</div>
           </div>
         </div>
         {pageEntries.map((entry) => <section className="homework-entry" key={`${group.title}-${entry.date}`} style={{ '--homework-color': entry.color }}>
