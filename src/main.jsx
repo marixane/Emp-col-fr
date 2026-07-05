@@ -100,5 +100,7 @@ import './cahier-exams-footer.css';
 import './cahier-exams-footer.js';
 import './cahier-group-box-polish.css';
 import './cahier-empty-autres-groups.js';
+import './cahier-exam-events.css';
+import './cahier-exam-events.js';
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
