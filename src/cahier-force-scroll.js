@@ -3,7 +3,11 @@ const applyCahierButtonOffset = () => {
   if (existing) existing.remove();
   const style = document.createElement('style');
   style.id = 'cahier-span-buttons-left-style';
-  style.textContent = '.cahier-tab-active .timetable-cell-content.colored-cell .span-tools{transform:translateX(-7px)!important;}';
+  style.textContent = [
+    '.cahier-tab-active .timetable-cell-content.colored-cell .span-tools{width:max-content!important;margin:0 auto!important;transform:translateX(-7px)!important;}',
+    '.cahier-tab-active .span-tools button:active,.cahier-tab-active .span-tools button:focus-visible{background:#2563eb!important;color:white!important;border-color:#1d4ed8!important;}',
+    '.cahier-tab-active .span-tools .span-remove-button:active,.cahier-tab-active .span-tools .cell-delete-button:active{background:#2563eb!important;color:white!important;border-color:#1d4ed8!important;}'
+  ].join('');
   document.head.appendChild(style);
 };
 
