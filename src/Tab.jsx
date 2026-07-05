@@ -4,10 +4,10 @@ const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const HOURS = ['08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00'];
 const CELL_COLORS = ['#fff3bf', '#d8f3dc', '#dbeafe', '#ffe4e6', '#ede9fe', '#cffafe', '#fef3c7', '#dcfce7', '#e0e7ff', '#fce7f3', '#ccfbf1', '#f5f5f4', '#fbcfe8', '#bfdbfe', '#bbf7d0', '#fed7aa', '#ddd6fe', '#bae6fd', '#fecdd3', '#ccfbf1'];
 const HOMEWORK_ENTRIES = [
-  ['LUNDI 15 AVRIL', 'Sciences', 'Regarder attentivement la vidéo : "C\'est quoi un trou noir" puis préparer une question à poser à un camarade.', '#66c43f'],
-  ['MARDI 16 AVRIL', 'Français', 'Apprendre la Fable de Jean de la Fontaine "La Cigale et la Fourmi." à partir du cahier multimedia Cahier de Fables', '#b34bd7'],
+  ['LUNDI 15 AVRIL', '', 'Regarder attentivement la vidéo : "C\'est quoi un trou noir" puis préparer une question à poser à un camarade.', '#66c43f'],
+  ['MARDI 16 AVRIL', '', 'Apprendre la Fable de Jean de la Fontaine "La Cigale et la Fourmi." à partir du cahier multimedia Cahier de Fables', '#b34bd7'],
   ['MERCREDI 17 AVRIL', '', '', '#2f80ed'],
-  ['JEUDI 18 AVRIL', 'Education\ncivique', 'Faire le quizz : Les droits de l\'enfant.', '#ff3f5f'],
+  ['JEUDI 18 AVRIL', '', 'Faire le quizz : Les droits de l\'enfant.', '#ff3f5f'],
   ['VENDREDI 19 AVRIL', '', '', '#f2994a']
 ];
 
