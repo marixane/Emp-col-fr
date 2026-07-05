@@ -1,9 +1,9 @@
 const EXAM_ROWS = [
-  ['Primaire', 'Examen normalisé local', '....................', '....................'],
-  ['Primaire', 'Examen normalisé provincial', '....................', '....................'],
-  ['Collège', 'Examen régional', '....................', '....................'],
-  ['Lycée', 'Examen régional 1ère Bac', '....................', '....................'],
-  ['Lycée', 'Examen national 2ème Bac', '....................', '....................']
+  ['Primaire', 'Examen normalisé local', '20–24 janvier 2026', ''],
+  ['Primaire', 'Examen normalisé provincial', '23–24 juin 2026', ''],
+  ['Collège', 'Examen régional', '16–17 juin 2026', ''],
+  ['Lycée', 'Examen régional 1ère Bac', '29–30 mai 2026', ''],
+  ['Lycée', 'Examen national 2ème Bac', '01–04 juin 2026', '']
 ];
 
 const makeExamCell = (text, header = false) => {
@@ -28,7 +28,7 @@ const buildExamTable = () => {
 
   const title = document.createElement('div');
   title.className = 'cahier-exams-title';
-  title.textContent = 'Tableau des examens';
+  title.textContent = 'Tableau des examens 2025-2026';
 
   const table = document.createElement('table');
   table.className = 'cahier-exams-table';
@@ -70,6 +70,8 @@ if (document.readyState === 'loading') {
 } else {
   scheduleCahierExamsFooter();
 }
+
+setInterval(scheduleCahierExamsFooter, 700);
 
 new MutationObserver(scheduleCahierExamsFooter).observe(document.body, {
   childList: true,
