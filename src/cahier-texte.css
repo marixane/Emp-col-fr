@@ -468,35 +468,44 @@ body.cahier-tab-active .exercise-line-count-overlay {
 }
 
 .homework-page {
-  padding: 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 18px 14px;
   font-family: Arial, sans-serif;
   color: #4f5060;
 }
 
 .homework-entry {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   border-left: 6px solid var(--homework-color);
-  margin: 0 0 16px;
+  margin: 0;
   background: white;
 }
 
 .homework-date {
-  min-height: 54px;
+  flex: 0 0 42px;
+  min-height: 42px;
   display: flex;
   align-items: center;
   padding: 0 0 0 30px;
   border-bottom: 1.5px dashed var(--homework-color);
   color: var(--homework-color);
   font-family: 'Comic Sans MS', 'Marker Felt', cursive;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
   text-transform: uppercase;
   outline: none;
 }
 
 .homework-content {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
   grid-template-columns: 26% 74%;
-  min-height: 122px;
   border-bottom: 1px solid #e8e8e8;
 }
 
@@ -506,9 +515,9 @@ body.cahier-tab-active .exercise-line-count-overlay {
   padding: 0 30px;
   border-right: 1px solid #e6e6e6;
   color: #3f4050;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 900;
-  line-height: 1.35;
+  line-height: 1.3;
   white-space: pre-line;
   outline: none;
 }
@@ -518,9 +527,9 @@ body.cahier-tab-active .exercise-line-count-overlay {
   align-items: center;
   padding: 0 32px;
   color: #666676;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.35;
   outline: none;
 }
 
@@ -555,9 +564,14 @@ body.cahier-tab-active .exercise-line-count-overlay {
     overflow: visible;
   }
 
-  .activity-page,
-  .homework-page {
+  .activity-page {
     page-break-before: always;
     padding: 0;
+  }
+
+  .homework-page {
+    page-break-before: always;
+    padding: 12px 18px 14px;
+    overflow: hidden;
   }
 }
