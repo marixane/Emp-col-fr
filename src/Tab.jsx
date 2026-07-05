@@ -3,8 +3,9 @@ import { useState } from 'react';
 const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const HOURS = ['08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00'];
 const CELL_COLORS = ['#fff3bf', '#d8f3dc', '#dbeafe', '#ffe4e6', '#ede9fe', '#cffafe', '#fef3c7', '#dcfce7', '#e0e7ff', '#fce7f3', '#ccfbf1', '#f5f5f4', '#fbcfe8', '#bfdbfe', '#bbf7d0', '#fed7aa', '#ddd6fe', '#bae6fd', '#fecdd3', '#ccfbf1'];
+const DOT_TEXT = Array.from({ length: 4 }, () => '.'.repeat(74)).join('\n');
 const HOMEWORK_ENTRIES = [
-  ['LUNDI 15 AVRIL', '', '....................................................', '#66c43f'],
+  ['LUNDI 15 AVRIL', '', DOT_TEXT, '#66c43f'],
   ['MARDI 16 AVRIL', '', 'Apprendre la Fable de Jean de la Fontaine "La Cigale et la Fourmi." à partir du cahier multimedia Cahier de Fables', '#b34bd7'],
   ['MERCREDI 17 AVRIL', '', '', '#2f80ed'],
   ['JEUDI 18 AVRIL', '', 'Faire le quizz : Les droits de l\'enfant.', '#ff3f5f'],
@@ -20,6 +21,16 @@ const normalizeCell = (cell) => typeof cell === 'object' && cell !== null ? {
   hidden: Boolean(cell.hidden)
 } : { text: String(cell ?? ''), room: 1, span: 1, hidden: false };
 const cloneCell = (cell) => ({ ...normalizeCell(cell), hidden: false });
+
+const dotTextStyle = {
+  color: 'rgba(63, 64, 80, 0.28)',
+  fontSize: '25px',
+  fontWeight: 900,
+  lineHeight: 1.18,
+  letterSpacing: '1px',
+  whiteSpace: 'pre-wrap',
+  overflow: 'hidden'
+};
 
 const getCellColor = (text) => {
   const normalized = String(text ?? '').toLowerCase().replace(/[\s-]/g, '').trim();
@@ -202,7 +213,7 @@ export default function Tab() {
       <div className="a4-page cahier-page homework-page">
         {HOMEWORK_ENTRIES.map(([date, subject, text, color]) => <section className="homework-entry" key={date} style={{ '--homework-color': color }}>
           <div className="homework-date" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter}>{date}</div>
-          <div className="homework-content"><div className="homework-subject" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter}>{subject}</div><div className="homework-text" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter}>{text}</div></div>
+          <div className="homework-content"><div className="homework-subject" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter}>{subject}</div><div className="homework-text" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter} style={text === DOT_TEXT ? dotTextStyle : undefined}>{text}</div></div>
         </section>)}
       </div>
     </section>
