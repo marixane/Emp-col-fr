@@ -22,6 +22,18 @@ const HOMEWORK_ENTRIES = [
     subject: 'Education\ncivique',
     text: 'Faire le quizz : Les droits de l\'enfant.',
     color: '#ff3f5f'
+  },
+  {
+    date: 'VENDREDI 19 AVRIL',
+    subject: '',
+    text: '',
+    color: '#2f80ed'
+  },
+  {
+    date: 'SAMEDI 20 AVRIL',
+    subject: '',
+    text: '',
+    color: '#f2994a'
   }
 ];
 
