@@ -95,5 +95,6 @@ import './cahier-dedupe-holiday-classes.js';
 import './cahier-window-scroll-fix.css';
 import './cahier-force-scroll.js';
 import './cahier-cover-info-panel.js';
+import './cahier-hide-extra-school-year.css';
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
