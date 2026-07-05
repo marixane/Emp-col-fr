@@ -69,10 +69,10 @@ const buildClassesPanel = (classes) => {
   return panel;
 };
 
-const buildGroupCoverPage = (title, index, classes) => {
+const buildGroupCoverPage = (title, index, classes, color) => {
   const page = document.createElement('div');
   page.className = 'a4-page cahier-page cahier-group-cover-page';
-  page.style.setProperty('--group-cover-color', GROUP_COVER_COLORS[index % GROUP_COVER_COLORS.length]);
+  page.style.setProperty('--group-cover-color', color);
 
   const card = document.createElement('div');
   card.className = 'cahier-group-cover-card';
@@ -100,17 +100,27 @@ const buildGroupCoverPage = (title, index, classes) => {
   return page;
 };
 
+const applyThemeToBlockPages = (pages, color) => {
+  pages.forEach((page) => {
+    page.classList.add('cahier-themed-group-page');
+    page.style.setProperty('--group-cover-color', color);
+  });
+};
+
 const applyGroupCoverPages = () => {
   if (!document.body.classList.contains('cahier-tab-active')) return;
   document.querySelectorAll('.cahier-group-cover-page').forEach((page) => page.remove());
+  document.querySelectorAll('.homework-page.cahier-themed-group-page').forEach((page) => page.classList.remove('cahier-themed-group-page'));
 
   const blocks = splitVisibleHomeworkBlocks();
   const filledGroups = getFilledGroupClassesForCover();
 
   blocks.forEach((block, index) => {
     if (!block.pages.length) return;
+    const color = GROUP_COVER_COLORS[index % GROUP_COVER_COLORS.length];
     const group = filledGroups[index] || { classes: [] };
-    const cover = buildGroupCoverPage(block.title, index, group.classes);
+    applyThemeToBlockPages(block.pages, color);
+    const cover = buildGroupCoverPage(block.title, index, group.classes, color);
     block.pages[0].before(cover);
   });
 };
