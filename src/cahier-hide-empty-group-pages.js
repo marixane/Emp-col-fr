@@ -2,7 +2,7 @@ const ensureEmptyGroupPageStyle = () => {
   if (document.getElementById('cahier-empty-group-page-style')) return;
   const style = document.createElement('style');
   style.id = 'cahier-empty-group-page-style';
-  style.textContent = 'body.cahier-tab-active .homework-page{display:block!important;} body.cahier-tab-active .homework-page.cahier-page-hidden-after-limit{display:none!important;} body.cahier-tab-active .homework-entry.cahier-entry-hidden-after-limit{display:none!important;} body.cahier-tab-active .cahier-group-cover-page.cahier-cover-hidden-before-july{display:none!important;}';
+  style.textContent = 'body.cahier-tab-active .homework-page{display:block!important;} body.cahier-tab-active [data-cahier-july-complete="true"]{display:none!important;} body.cahier-tab-active .homework-page.cahier-page-hidden-after-limit{display:none!important;} body.cahier-tab-active .homework-entry.cahier-entry-hidden-after-limit{display:none!important;} body.cahier-tab-active .cahier-group-cover-page.cahier-cover-hidden-before-july{display:none!important;}';
   document.head.appendChild(style);
 };
 
@@ -13,17 +13,20 @@ const getCahierEntryDate = (entry) => {
   return { day: Number(match[1]), month: Number(match[2]) };
 };
 
-const getCahierPageTitle = (page) => String(
-  page.querySelector('.homework-page > div:first-child > div:first-child')?.textContent ||
-  page.firstElementChild?.firstElementChild?.textContent ||
-  ''
-).trim();
+const fixJuly2027Labels = () => {
+  const fixes = new Map([
+    ['LUNDI 06/07', 'LUNDI 05/07'],
+    ['MARDI 07/07', 'MARDI 06/07'],
+    ['MERCREDI 08/07', 'MERCREDI 07/07'],
+    ['JEUDI 09/07', 'JEUDI 08/07'],
+    ['VENDREDI 10/07', 'VENDREDI 09/07'],
+    ['SAMEDI 11/07', 'SAMEDI 10/07']
+  ]);
 
-const getEntryKey = (page, entry) => {
-  const date = String(entry.querySelector('.homework-date')?.textContent || '').replace(/\s+/g, ' ').trim();
-  const subject = String(entry.querySelector('.homework-subject')?.textContent || '').replace(/\s+/g, ' ').trim();
-  const text = String(entry.querySelector('.homework-text')?.textContent || '').replace(/\.+/g, '.').replace(/\s+/g, ' ').trim();
-  return `${getCahierPageTitle(page)}|${date}|${subject}|${text}`;
+  document.querySelectorAll('.homework-entry:not(.cahier-exam-entry):not(.cahier-extra-holiday-entry) .homework-date').forEach((node) => {
+    const text = String(node.textContent || '').trim();
+    if (fixes.has(text)) node.textContent = fixes.get(text);
+  });
 };
 
 const getCahierProgressDate = (page) => getCahierEntryDate(page.querySelector('.homework-entry')) || { day: 1, month: 9 };
@@ -49,34 +52,10 @@ const fixCahierProgressBars = () => {
   });
 };
 
-const hideDuplicateJulyEntries = () => {
-  const seen = new Set();
-  document.querySelectorAll('.homework-page').forEach((page) => {
-    page.querySelectorAll('.homework-entry').forEach((entry) => {
-      const date = getCahierEntryDate(entry);
-      if (date?.month !== 7) {
-        entry.classList.remove('cahier-entry-hidden-after-limit');
-        return;
-      }
-      const key = getEntryKey(page, entry);
-      if (seen.has(key)) entry.classList.add('cahier-entry-hidden-after-limit');
-      else seen.add(key);
-    });
-  });
-};
-
-const hideBlankPagesAndJulyCovers = () => {
-  document.querySelectorAll('.cahier-group-cover-page').forEach((cover) => {
-    cover.classList.toggle('cahier-cover-hidden-before-july', cover.nextElementSibling?.dataset?.cahierJulyComplete === 'true');
-  });
-
-  document.querySelectorAll('.homework-page').forEach((page) => {
-    const visibleEntries = Array.from(page.querySelectorAll('.homework-entry')).filter((entry) => !entry.classList.contains('cahier-entry-hidden-after-limit'));
-    page.classList.toggle('cahier-page-hidden-after-limit', visibleEntries.length === 0);
-  });
-};
-
 const applyCahierEndLimit = () => {
+  fixJuly2027Labels();
+  document.querySelectorAll('[data-cahier-july-complete="true"]').forEach((page) => page.classList.add('cahier-page-hidden-after-limit'));
+
   document.querySelectorAll('.homework-entry').forEach((entry) => {
     const date = getCahierEntryDate(entry);
     const afterLimit = date?.month === 7 && date.day > 10;
@@ -84,8 +63,11 @@ const applyCahierEndLimit = () => {
     else entry.classList.remove('cahier-entry-hidden-after-limit');
   });
 
-  hideDuplicateJulyEntries();
-  hideBlankPagesAndJulyCovers();
+  document.querySelectorAll('.homework-page').forEach((page) => {
+    const visibleEntries = Array.from(page.querySelectorAll('.homework-entry')).filter((entry) => !entry.classList.contains('cahier-entry-hidden-after-limit'));
+    page.classList.toggle('cahier-page-hidden-after-limit', visibleEntries.length === 0 || page.dataset.cahierJulyComplete === 'true');
+  });
+
   fixCahierProgressBars();
 };
 
