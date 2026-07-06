@@ -100,15 +100,16 @@ import './cahier-exam-events.css';
 import './cahier-fixed-five-entries.css';
 import './cahier-group-cover-pages.css';
 
-// Sécurité cahier : tous les scripts DOM du cahier sont désactivés.
-// Ils entraient en conflit avec React et pouvaient bloquer dès la 2e classe.
-// import './cahier-cover-page.js';
+// Pages d'accueil propres réactivées.
+import './cahier-cover-page.js';
+import './cahier-group-cover-pages.js';
+
+// Gardés désactivés : scripts DOM qui modifient les événements/juillet après React.
 // import './cahier-dedupe-holiday-classes.js';
 // import './cahier-cover-info-panel.js';
 // import './cahier-exams-footer.js';
 // import './cahier-exam-events.js';
 // import './cahier-hide-empty-group-pages.js';
-// import './cahier-group-cover-pages.js';
 // import './cahier-july-complete.js';
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
