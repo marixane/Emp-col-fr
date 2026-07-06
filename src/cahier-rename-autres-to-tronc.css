@@ -1,0 +1,12 @@
+.cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(4) > div:first-child {
+  font-size: 0 !important;
+}
+
+.cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(4) > div:first-child::after {
+  content: 'TRONC COMMUN' !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  color: #111827 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+}
