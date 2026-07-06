@@ -2,6 +2,22 @@
   grid-template-columns: repeat(4, 1fr) !important;
 }
 
+.cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(1) {
+  order: 2 !important;
+}
+
+.cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(2) {
+  order: 3 !important;
+}
+
+.cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(3) {
+  order: 4 !important;
+}
+
+.cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(4) {
+  order: 1 !important;
+}
+
 .cahier-page > div[style*="repeat(5, 1fr)"] > div:nth-child(5) {
   display: none !important;
 }
