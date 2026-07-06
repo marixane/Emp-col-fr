@@ -12,6 +12,8 @@ export const config = {
 };
 
 const MAX_HTML_SIZE = 11 * 1024 * 1024;
+const A4_WIDTH = 794;
+const A4_HEIGHT = 1123;
 
 const cleanBaseUrl = (url) => String(url || 'https://a4exam.com').replace(/["<>]/g, '').replace(/\/$/, '');
 
@@ -37,12 +39,13 @@ export default async function handler(req, res) {
   try {
     browser = await puppeteer.launch({
       args: chromium.args,
-      defaultViewport: { width: 794, height: 1123 },
+      defaultViewport: { width: A4_WIDTH, height: A4_HEIGHT, deviceScaleFactor: 1 },
       executablePath: await chromium.executablePath(),
       headless: chromium.headless
     });
 
     const page = await browser.newPage();
+    await page.setViewport({ width: A4_WIDTH, height: A4_HEIGHT, deviceScaleFactor: 1 });
     page.setDefaultTimeout(45000);
 
     const safeBase = cleanBaseUrl(baseUrl);
@@ -52,19 +55,19 @@ export default async function handler(req, res) {
   <base href="${safeBase}/">
   <meta charset="utf-8">
   <style>
-    @page { size: 210mm 297mm; margin: 0; }
+    @page { size: ${A4_WIDTH}px ${A4_HEIGHT}px; margin: 0; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
     html, body {
-      width: 210mm !important;
+      width: ${A4_WIDTH}px !important;
       margin: 0 !important;
       padding: 0 !important;
       background: white !important;
       overflow: visible !important;
     }
-    body { min-height: 297mm !important; }
+    body { min-height: ${A4_HEIGHT}px !important; }
     .cahier-pdf-export-button, .app-tabs, .tab-button, button { display: none !important; }
     .cahier-preview-zone {
-      width: 210mm !important;
+      width: ${A4_WIDTH}px !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: visible !important;
@@ -74,12 +77,12 @@ export default async function handler(req, res) {
       display: block !important;
     }
     .a4-page, .cahier-page {
-      width: 210mm !important;
-      min-width: 210mm !important;
-      max-width: 210mm !important;
-      height: 297mm !important;
-      min-height: 297mm !important;
-      max-height: 297mm !important;
+      width: ${A4_WIDTH}px !important;
+      min-width: ${A4_WIDTH}px !important;
+      max-width: ${A4_WIDTH}px !important;
+      height: ${A4_HEIGHT}px !important;
+      min-height: ${A4_HEIGHT}px !important;
+      max-height: ${A4_HEIGHT}px !important;
       margin: 0 !important;
       padding: 0 !important;
       transform: none !important;
@@ -90,6 +93,10 @@ export default async function handler(req, res) {
       box-shadow: none !important;
       display: block !important;
       position: relative !important;
+    }
+    .cahier-group-cover-page {
+      width: ${A4_WIDTH}px !important;
+      height: ${A4_HEIGHT}px !important;
     }
     .a4-page:last-child, .cahier-page:last-child { break-after: auto !important; page-break-after: auto !important; }
   </style>
@@ -107,11 +114,11 @@ export default async function handler(req, res) {
     await page.waitForTimeout(500);
 
     const pdf = await page.pdf({
-      width: '210mm',
-      height: '297mm',
+      width: `${A4_WIDTH}px`,
+      height: `${A4_HEIGHT}px`,
       printBackground: true,
       preferCSSPageSize: true,
-      margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' },
+      margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
       scale: 1
     });
 
