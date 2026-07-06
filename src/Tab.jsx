@@ -69,6 +69,14 @@ const examListHeaderCellStyle = { padding: '6px 7px', border: '1px solid rgba(30
 const examListCellStyle = { padding: '6px 7px', border: '1px solid rgba(30, 58, 138, 0.16)', color: '#1f2937', fontSize: '11px', fontWeight: 800, textAlign: 'center', lineHeight: 1.2 };
 const groupHomeworkHeaderStyle = { position: 'absolute', top: '10px', left: '50px', right: '18px', height: '42px', display: 'grid', gridTemplateColumns: '230px 1fr', alignItems: 'center', gap: '18px', borderRadius: '12px', background: 'var(--group-color)', color: '#111827', padding: '0 18px', boxShadow: '0 2px 6px rgba(17, 17, 17, 0.12)' };
 const groupHomeworkTitleStyle = { fontSize: '20px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.4px', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
+const groupCoverPageStyle = { position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '28px', padding: '70px 58px', background: 'linear-gradient(180deg, var(--group-color), #ffffff 78%)', borderLeft: '14px solid var(--group-color)', overflow: 'hidden', textAlign: 'center' };
+const groupCoverBadgeStyle = { padding: '10px 22px', borderRadius: '999px', background: 'rgba(255, 255, 255, 0.72)', border: '2px solid rgba(17, 24, 39, 0.14)', color: '#374151', fontSize: '18px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1.4px' };
+const groupCoverTitleStyle = { width: '100%', margin: 0, padding: '30px 20px', borderRadius: '28px', background: 'var(--group-color)', color: '#111827', fontSize: '54px', fontWeight: 900, lineHeight: 1.05, textTransform: 'uppercase', boxShadow: '0 18px 35px rgba(17, 24, 39, 0.16)' };
+const groupCoverClassWrapStyle = { width: '100%', maxWidth: '620px', padding: '24px', borderRadius: '24px', background: 'rgba(255, 255, 255, 0.78)', border: '2px solid rgba(17, 24, 39, 0.12)', boxShadow: '0 10px 24px rgba(17, 24, 39, 0.10)' };
+const groupCoverClassTitleStyle = { marginBottom: '18px', color: '#374151', fontSize: '20px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.6px' };
+const groupCoverGridStyle = { display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '12px' };
+const groupCoverChipStyle = { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '44px', padding: '10px 14px', borderRadius: '14px', border: '1.5px solid rgba(17, 24, 39, 0.20)', color: '#111827', fontSize: '18px', fontWeight: 900, textTransform: 'uppercase', boxShadow: '0 2px 6px rgba(17, 24, 39, 0.10)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' };
+const groupCoverEmptyStyle = { color: 'rgba(55, 65, 81, 0.65)', fontSize: '18px', fontWeight: 800 };
 const progressWrapStyle = { display: 'grid', gridTemplateColumns: '1fr 46px', alignItems: 'center', gap: '10px' };
 const progressBarStyle = { position: 'relative', height: '12px', borderRadius: '999px', background: 'rgba(255, 255, 255, 0.85)', border: '1px solid rgba(17, 24, 39, 0.12)', boxShadow: 'inset 0 1px 3px rgba(17, 24, 39, 0.10)' };
 const progressFillStyle = { position: 'absolute', top: 0, left: 0, bottom: 0, borderRadius: '999px', background: 'linear-gradient(90deg, #22c55e, #16a34a)' };
@@ -249,7 +257,7 @@ export default function Tab() {
       return [...eventEntries, { date: `${getDisplayDay(date, rows)} ${monthDate}`, sessions, text: DOT_TEXT, isHoliday: false, isExam: false, progressDate: monthDate, color: HOMEWORK_COLORS[dayIndex % HOMEWORK_COLORS.length] }];
     }).filter(Boolean);
 
-    return { title: GROUP_TITLES[groupIndex], color: GROUP_COLORS[groupIndex], pages: chunkEntries(entries, 5) };
+    return { title: GROUP_TITLES[groupIndex], color: GROUP_COLORS[groupIndex], classes: group.classes, pages: chunkEntries(entries, 5) };
   }).filter((group) => group.pages.length > 0);
 
   const canExtendLeft = (row, hourIndex) => hourIndex > 0 && Boolean(normalizeCell(row.cells[hours[hourIndex]]).text.trim()) && !normalizeCell(row.cells[hours[hourIndex - 1]]).hidden && !normalizeCell(row.cells[hours[hourIndex - 1]]).text.trim();
@@ -395,22 +403,32 @@ export default function Tab() {
         </div>
         <footer className="cahier-footer"><span>Signature :</span><span>Observations :</span></footer>
       </div>
-      {groupedHomeworkPages.map((group, groupIndex) => group.pages.map((pageEntries, pageIndex) => <div className="a4-page cahier-page homework-page" key={`homework-page-${groupIndex}-${pageIndex}`} style={{ '--group-color': group.color, position: 'relative', paddingTop: '60px' }}>
-        <div style={groupHomeworkHeaderStyle}>
-          <div style={groupHomeworkTitleStyle}>{group.title}</div>
-          <div style={progressWrapStyle}>
-            <div style={progressBarStyle}>
-              <div style={{ ...progressFillStyle, width: `${getPageProgressPercent(pageEntries)}%` }} />
-              {SCHOOL_PROGRESS_FLAGS.map((flag) => <span key={flag.date} style={{ ...progressFlagStyle, left: `${getFlagPercent(flag.date)}%` }} title={flag.label}>⚑</span>)}
-            </div>
-            <div style={progressPercentStyle}>{getPageProgressPercent(pageEntries)}%</div>
+      {groupedHomeworkPages.flatMap((group, groupIndex) => [
+        <div className="a4-page cahier-page homework-cover-page" key={`homework-cover-${groupIndex}`} style={{ ...groupCoverPageStyle, '--group-color': group.color }}>
+          <div style={groupCoverBadgeStyle}>Cahier de texte</div>
+          <h1 style={groupCoverTitleStyle}>{group.title}</h1>
+          <div style={groupCoverClassWrapStyle}>
+            <div style={groupCoverClassTitleStyle}>Classes du groupe</div>
+            {group.classes.length ? <div style={groupCoverGridStyle}>{group.classes.map((className) => <span key={`${group.title}-cover-${className}`} style={{ ...groupCoverChipStyle, background: getCellColor(className) }}>{className}</span>)}</div> : <div style={groupCoverEmptyStyle}>Aucune classe affectée</div>}
           </div>
-        </div>
-        {pageEntries.map((entry) => <section className={`homework-entry ${entry.isExam ? 'cahier-exam-entry' : ''} ${entry.isHoliday ? 'cahier-extra-holiday-entry' : ''}`} key={`${group.title}-${entry.date}-${entry.eventKey || entry.text}`} style={{ '--homework-color': entry.color }}>
-          <div className="homework-date" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter}>{entry.date}</div>
-          <div className="homework-content"><div className="homework-subject" contentEditable={entry.sessions.length === 0} suppressContentEditableWarning onKeyDown={validateOnEnter} style={entry.sessions.length ? subjectTextStyle : undefined}>{entry.sessions.map((session) => <div key={`${group.title}-${entry.date}-${session.hour}-${session.className}`} style={sessionLineStyle}><span style={sessionHourStyle}>{session.hour}</span><span style={sessionClassStyle}>{session.className}</span></div>)}</div><div className="homework-text" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter} style={entry.isHoliday ? holidayTextStyle : entry.isExam ? examTextStyle : dotTextStyle}>{entry.text}</div></div>
-        </section>)}
-      </div>))}
+        </div>,
+        ...group.pages.map((pageEntries, pageIndex) => <div className="a4-page cahier-page homework-page" key={`homework-page-${groupIndex}-${pageIndex}`} style={{ '--group-color': group.color, position: 'relative', paddingTop: '60px' }}>
+          <div style={groupHomeworkHeaderStyle}>
+            <div style={groupHomeworkTitleStyle}>{group.title}</div>
+            <div style={progressWrapStyle}>
+              <div style={progressBarStyle}>
+                <div style={{ ...progressFillStyle, width: `${getPageProgressPercent(pageEntries)}%` }} />
+                {SCHOOL_PROGRESS_FLAGS.map((flag) => <span key={flag.date} style={{ ...progressFlagStyle, left: `${getFlagPercent(flag.date)}%` }} title={flag.label}>⚑</span>)}
+              </div>
+              <div style={progressPercentStyle}>{getPageProgressPercent(pageEntries)}%</div>
+            </div>
+          </div>
+          {pageEntries.map((entry) => <section className={`homework-entry ${entry.isExam ? 'cahier-exam-entry' : ''} ${entry.isHoliday ? 'cahier-extra-holiday-entry' : ''}`} key={`${group.title}-${entry.date}-${entry.eventKey || entry.text}`} style={{ '--homework-color': entry.color }}>
+            <div className="homework-date" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter}>{entry.date}</div>
+            <div className="homework-content"><div className="homework-subject" contentEditable={entry.sessions.length === 0} suppressContentEditableWarning onKeyDown={validateOnEnter} style={entry.sessions.length ? subjectTextStyle : undefined}>{entry.sessions.map((session) => <div key={`${group.title}-${entry.date}-${session.hour}-${session.className}`} style={sessionLineStyle}><span style={sessionHourStyle}>{session.hour}</span><span style={sessionClassStyle}>{session.className}</span></div>)}</div><div className="homework-text" contentEditable suppressContentEditableWarning onKeyDown={validateOnEnter} style={entry.isHoliday ? holidayTextStyle : entry.isExam ? examTextStyle : dotTextStyle}>{entry.text}</div></div>
+          </section>)}
+        </div>)
+      ])}
     </section>
   </main>;
 }
