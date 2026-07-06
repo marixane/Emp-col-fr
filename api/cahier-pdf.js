@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import chromium from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 
@@ -16,6 +17,27 @@ const A4_WIDTH = 794;
 const A4_HEIGHT = 1123;
 const A4_WIDTH_CSS = '210mm';
 const A4_HEIGHT_CSS = '297mm';
+
+const LOCAL_CHROME_PATHS = [
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Chromium.app/Contents/MacOS/Chromium',
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'
+];
+
+const isLocalDev = () => !process.env.VERCEL && process.env.NODE_ENV !== 'production';
+
+const getLocalChromePath = () => LOCAL_CHROME_PATHS.find((path) => existsSync(path));
+
+const getExecutablePath = async () => {
+  const localPath = getLocalChromePath();
+  if (isLocalDev() && localPath) return localPath;
+  return chromium.executablePath();
+};
+
+const getLaunchArgs = () => {
+  const args = isLocalDev() ? ['--no-sandbox', '--disable-setuid-sandbox'] : chromium.args;
+  return args;
+};
 
 const cleanBaseUrl = (url) => String(url || 'https://a4exam.com').replace(/["<>]/g, '').replace(/\/$/, '');
 
@@ -40,10 +62,10 @@ export default async function handler(req, res) {
 
   try {
     browser = await puppeteer.launch({
-      args: chromium.args,
+      args: getLaunchArgs(),
       defaultViewport: { width: A4_WIDTH, height: A4_HEIGHT, deviceScaleFactor: 1 },
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless
+      executablePath: await getExecutablePath(),
+      headless: true
     });
 
     const page = await browser.newPage();
@@ -68,8 +90,10 @@ export default async function handler(req, res) {
     }
     body { min-height: ${A4_HEIGHT_CSS} !important; }
     .cahier-pdf-export-button, .app-tabs, .tab-button, button { display: none !important; }
-    .cahier-preview-zone {
+    .cahier-preview-zone, .preview-zone {
       width: ${A4_WIDTH_CSS} !important;
+      min-width: ${A4_WIDTH_CSS} !important;
+      max-width: ${A4_WIDTH_CSS} !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: visible !important;
@@ -78,9 +102,17 @@ export default async function handler(req, res) {
       background: white !important;
       display: block !important;
       transform: none !important;
+      scale: 1 !important;
+      translate: 0 0 !important;
       zoom: 1 !important;
+      container-type: normal !important;
     }
-    .a4-page, .cahier-page {
+    .cahier-preview-zone .a4-page,
+    .cahier-preview-zone .cahier-page,
+    .preview-zone .a4-page,
+    .preview-zone .cahier-page,
+    .a4-page,
+    .cahier-page {
       width: ${A4_WIDTH_CSS} !important;
       min-width: ${A4_WIDTH_CSS} !important;
       max-width: ${A4_WIDTH_CSS} !important;
@@ -98,6 +130,12 @@ export default async function handler(req, res) {
       box-shadow: none !important;
       display: block !important;
       position: relative !important;
+      flex: none !important;
+    }
+    .cahier-preview-zone .a4-page::before,
+    .preview-zone .a4-page::before {
+      display: none !important;
+      content: none !important;
     }
     .cahier-group-cover-page {
       width: ${A4_WIDTH_CSS} !important;
