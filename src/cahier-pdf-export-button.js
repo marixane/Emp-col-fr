@@ -38,8 +38,10 @@ const isVisiblePage = (page) => {
 
 const canonicalGroupTitle = (title) => {
   const text = normalizeText(title);
-  if (text === '1eres bac') return '1ères bac';
-  if (text === '2eme bac') return '2ème bac';
+  if (text.includes('tronc commun')) return 'tronc commun';
+  if (text.includes('1ères bac') || text.includes('1eres bac')) return '1ères bac';
+  if (text.includes('2ème bac') || text.includes('2eme bac')) return '2ème bac';
+  if (text.includes('autres')) return 'autres';
   return text;
 };
 
@@ -66,14 +68,8 @@ const getFilledGroupTitles = () => {
 };
 
 const getHomeworkPageTitle = (page) => {
-  const directTitle = canonicalGroupTitle(page.querySelector(':scope > div > div')?.textContent || '');
-  if (GROUP_TITLES_FOR_PDF.includes(directTitle)) return directTitle;
-
-  const candidates = Array.from(page.querySelectorAll('div'))
-    .slice(0, 24)
-    .map((node) => canonicalGroupTitle(node.textContent || ''));
-
-  return candidates.find((text) => GROUP_TITLES_FOR_PDF.includes(text)) || '';
+  const text = canonicalGroupTitle(page.textContent || '');
+  return GROUP_TITLES_FOR_PDF.map(canonicalGroupTitle).find((title) => text.includes(title)) || '';
 };
 
 const shouldExportPage = (page, filledGroupTitles) => {
