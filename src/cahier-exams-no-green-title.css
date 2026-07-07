@@ -1,0 +1,11 @@
+.cahier-page > .cahier-exams-list {
+  margin-top: 0 !important;
+}
+
+.cahier-page > .cahier-exams-list > div:first-child {
+  display: none !important;
+}
+
+.cahier-page > .cahier-exams-list table {
+  margin-top: 0 !important;
+}
