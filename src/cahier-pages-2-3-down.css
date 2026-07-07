@@ -12,6 +12,63 @@
   margin-top: 140px !important;
 }
 
+/* Page de l'emploi du temps : total placé sous le tableau, à droite. */
+.cahier-page:has(> .timetable-table) {
+  display: flex;
+  flex-direction: column;
+}
+
+.cahier-page:has(> .timetable-table) > .cahier-header {
+  order: 0;
+}
+
+.cahier-page:has(> .timetable-table) > .timetable-table {
+  order: 1;
+}
+
+.cahier-page:has(> .timetable-table) > .total-hours-control {
+  order: 2;
+  align-self: flex-end;
+  width: auto;
+  min-width: 230px;
+  min-height: 48px;
+  margin: 14px 0 12px auto;
+  padding: 10px 20px;
+  gap: 10px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #111827, #334155);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.22);
+}
+
+.cahier-page:has(> .timetable-table) > .total-hours-control strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 62px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  font-size: 20px;
+}
+
+.cahier-page:has(> .timetable-table) > .cahier-exams-list {
+  order: 3;
+}
+
+.cahier-page:has(> .timetable-table) > div[style*="grid-template-columns"] {
+  order: 4;
+}
+
+.cahier-page:has(> .timetable-table) > .cahier-footer {
+  order: 5;
+}
+
 @media print {
   .cahier-preview-zone > .a4-page:nth-child(3) > *,
   .cahier-preview-zone > .a4-page:nth-child(4) > *,
@@ -25,5 +82,11 @@
     clear: both !important;
     transform: none !important;
     margin-top: 140px !important;
+  }
+
+  .cahier-page:has(> .timetable-table) > .total-hours-control {
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
