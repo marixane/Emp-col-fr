@@ -21,9 +21,14 @@
 }
 
 .cahier-preview-zone > .cahier-page:not(.homework-page):not(.homework-cover-page) .total-hours-control strong {
-  min-width: 30px !important;
-  padding: 3px 5px !important;
-  border-radius: 5px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: inherit !important;
   font-size: 17px !important;
 }
 
