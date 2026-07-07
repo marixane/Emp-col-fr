@@ -10,21 +10,21 @@
   bottom: 168px !important;
   z-index: 5;
   width: auto !important;
-  min-width: 138px !important;
-  min-height: 29px !important;
+  min-width: 105px !important;
+  min-height: 22px !important;
   margin: 0 !important;
-  padding: 6px 12px !important;
-  gap: 6px !important;
-  border-radius: 8px !important;
-  font-size: 11px !important;
+  padding: 4px 8px !important;
+  gap: 4px !important;
+  border-radius: 6px !important;
+  font-size: 9px !important;
   transform: translateX(-50%) !important;
 }
 
 .cahier-preview-zone > .cahier-page:not(.homework-page):not(.homework-cover-page) .total-hours-control strong {
-  min-width: 37px !important;
-  padding: 4px 6px !important;
-  border-radius: 6px !important;
-  font-size: 12px !important;
+  min-width: 30px !important;
+  padding: 3px 5px !important;
+  border-radius: 5px !important;
+  font-size: 10px !important;
 }
 
 @media print {
