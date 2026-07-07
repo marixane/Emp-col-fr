@@ -7,24 +7,24 @@ const applyCompactTimetableState = (enabled) => {
   });
 };
 
-const placeTotalHoursBelowTimetable = () => {
+const arrangeTimetableControls = () => {
   const table = document.querySelector('.timetable-table');
   const total = document.querySelector('.total-hours-control');
-  if (!table || !total) return;
+  if (!table || !total) return null;
 
   const page = table.closest('.cahier-page');
-  if (!page) return;
+  if (!page) return null;
 
-  if (total.parentElement !== page || table.nextElementSibling !== total) {
+  if (table.nextElementSibling !== total) {
     table.insertAdjacentElement('afterend', total);
   }
+
+  return page;
 };
 
 const installCompactTimetableToggle = () => {
-  placeTotalHoursBelowTimetable();
-
-  const anchor = document.querySelector('.total-hours-control');
-  if (!anchor) return;
+  const page = arrangeTimetableControls();
+  if (!page) return;
 
   let wrapper = document.getElementById('compact-timetable-pdf-toggle');
   if (!wrapper) {
@@ -46,9 +46,10 @@ const installCompactTimetableToggle = () => {
     });
 
     wrapper.append(checkbox, text);
-    anchor.insertAdjacentElement('afterend', wrapper);
-  } else if (anchor.nextElementSibling !== wrapper) {
-    anchor.insertAdjacentElement('afterend', wrapper);
+  }
+
+  if (wrapper.parentElement !== page) {
+    page.prepend(wrapper);
   }
 
   const checkbox = wrapper.querySelector('input');
