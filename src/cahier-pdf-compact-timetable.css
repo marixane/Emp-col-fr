@@ -34,6 +34,7 @@
 
   .timetable-table.compact-pdf-hours thead th:nth-child(8),
   .timetable-table.compact-pdf-hours tbody tr > td:nth-child(8) {
-    border-left: 4px solid #000 !important;
+    border-left: 14px solid #d1d5db !important;
+    box-shadow: inset 4px 0 0 #9ca3af, inset 8px 0 0 #e5e7eb !important;
   }
 }
