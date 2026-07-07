@@ -4,6 +4,11 @@
     transform: translateX(25px) !important;
   }
 
+  .homework-page > div:first-child > div:nth-child(2) {
+    width: 88% !important;
+    justify-self: center !important;
+  }
+
   .homework-page {
     display: flex !important;
     flex-direction: column !important;
