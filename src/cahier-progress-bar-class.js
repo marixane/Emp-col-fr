@@ -8,9 +8,9 @@ const tagHomeworkProgressBars = () => {
 
     if (progressWrap) {
       progressWrap.classList.add('cahier-progress-wrap');
-      progressWrap.style.setProperty('width', '60%', 'important');
+      progressWrap.style.setProperty('width', '45%', 'important');
       progressWrap.style.setProperty('justify-self', 'center', 'important');
-      progressWrap.style.setProperty('max-width', '60%', 'important');
+      progressWrap.style.setProperty('max-width', '45%', 'important');
     }
 
     if (progressBar) {
