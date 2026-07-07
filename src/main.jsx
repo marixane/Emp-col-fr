@@ -121,6 +121,7 @@ import './cahier-pdf-fill-pages.css';
 import './cahier-blue-header-compact.css';
 import './cahier-pdf-compact-timetable.css';
 import './cahier-pdf-compact-timetable.js';
+import './cahier-remove-jour-cell.js';
 
 // Désactivé : ce helper DOM faisait buguer l'ajout de plusieurs séances.
 // import './cahier-group-cover-july10-light.js';
