@@ -27,12 +27,16 @@
 }
 
 .cahier-page:has(> .timetable-table) > .total-hours-control {
-  order: 2;
-  align-self: flex-end;
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 70px !important;
+  top: auto !important;
+  left: auto !important;
+  z-index: 20;
   width: auto;
   min-width: 230px;
   min-height: 48px;
-  margin: 314px 0 12px auto;
+  margin: 0 !important;
   padding: 10px 20px;
   gap: 10px;
   border: 0;
@@ -40,6 +44,7 @@
   background: #111827 !important;
   background-image: none !important;
   opacity: 1 !important;
+  transform: none !important;
   color: #fff;
   font-size: 18px;
   font-weight: 900;
@@ -88,9 +93,12 @@
   }
 
   .cahier-page:has(> .timetable-table) > .total-hours-control {
+    right: 22px !important;
+    bottom: 70px !important;
     background: #111827 !important;
     background-image: none !important;
     opacity: 1 !important;
+    transform: none !important;
     box-shadow: none;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
