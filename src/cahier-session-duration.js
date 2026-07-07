@@ -52,12 +52,14 @@ const fitClassLabel = (node) => {
 
   const line = node.parentElement;
   const classCount = line?.parentElement?.children?.length || 1;
-  const initialSize = classCount >= 4 ? 14 : classCount === 3 ? 16 : 17;
-  node.style.setProperty('font-size', `${initialSize}px`, 'important');
-
-  let size = initialSize;
+  const maxSize = classCount >= 4 ? 16 : classCount === 3 ? 18 : 20;
+  const minSize = 8;
   const availableWidth = Math.max(node.clientWidth - 2, 0);
-  while (size > 8 && node.scrollWidth > availableWidth) {
+
+  let size = maxSize;
+  node.style.setProperty('font-size', `${size}px`, 'important');
+
+  while (size > minSize && node.scrollWidth > availableWidth) {
     size -= 1;
     node.style.setProperty('font-size', `${size}px`, 'important');
   }
