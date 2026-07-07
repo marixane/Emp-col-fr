@@ -75,6 +75,30 @@ function pdfApiPlugin() {
                   break-after: page !important;
                   page-break-after: always !important;
                 }
+                .homework-page {
+                  padding-left: 14mm !important;
+                  padding-right: 8mm !important;
+                }
+                .homework-page > *,
+                .homework-page .homework-entry,
+                .homework-page .homework-content,
+                .homework-page .homework-text,
+                .homework-page .homework-subject {
+                  width: 100% !important;
+                  max-width: none !important;
+                  box-sizing: border-box !important;
+                }
+                .homework-page .homework-entry {
+                  margin-left: 0 !important;
+                  margin-right: 0 !important;
+                }
+                .homework-page .homework-content {
+                  grid-template-columns: 40% 60% !important;
+                }
+                .homework-page .homework-text {
+                  padding-right: 0 !important;
+                  margin-right: 0 !important;
+                }
                 .a4-page:last-child, .cahier-page:last-child { break-after: auto !important; page-break-after: auto !important; }
               `
             });
