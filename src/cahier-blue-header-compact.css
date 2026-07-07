@@ -2,13 +2,17 @@
   transform: translateX(100px) !important;
 }
 
-.timetable-cell-content.colored-cell textarea {
-  font-size: 18px !important;
+input[placeholder="Classe"],
+textarea[placeholder="Classe"] {
+  font-size: 14px !important;
+  text-align: center !important;
   font-weight: 700 !important;
 }
 
-.timetable-cell-content:not(.colored-cell) textarea {
+input[placeholder="Classe"]::placeholder,
+textarea[placeholder="Classe"]::placeholder {
   color: transparent !important;
+  opacity: 0 !important;
 }
 
 @media print {
@@ -16,7 +20,15 @@
     transform: translateX(100px) !important;
   }
 
-  .timetable-cell-content.colored-cell textarea {
-    font-size: 18px !important;
+  input[placeholder="Classe"],
+  textarea[placeholder="Classe"] {
+    font-size: 14px !important;
+    text-align: center !important;
+  }
+
+  input[placeholder="Classe"]::placeholder,
+  textarea[placeholder="Classe"]::placeholder {
+    color: transparent !important;
+    opacity: 0 !important;
   }
 }
