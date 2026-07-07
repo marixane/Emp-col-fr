@@ -10,12 +10,15 @@
   bottom: 168px !important;
   z-index: 5;
   margin: 0 !important;
-  transform: translateX(-50%) !important;
+  transform: translateX(-50%) scale(0.6) !important;
+  transform-origin: center center !important;
 }
 
 @media print {
   .cahier-preview-zone > .cahier-page:not(.homework-page):not(.homework-cover-page) .total-hours-control {
     left: calc(50% + 20px) !important;
     bottom: calc(10mm + 150px) !important;
+    transform: translateX(-50%) scale(0.6) !important;
+    transform-origin: center center !important;
   }
 }
