@@ -1,0 +1,72 @@
+.cahier-page > .cahier-exams-list tr {
+  grid-template-columns: 1.05fr 1.35fr 2.8fr !important;
+}
+
+.cahier-page > .cahier-exams-list th:first-child,
+.cahier-page > .cahier-exams-list td:first-child {
+  order: 2 !important;
+}
+
+.cahier-page > .cahier-exams-list th:nth-child(2),
+.cahier-page > .cahier-exams-list td:nth-child(2) {
+  order: 1 !important;
+}
+
+.cahier-page > .cahier-exams-list th:nth-child(3),
+.cahier-page > .cahier-exams-list td:nth-child(3) {
+  order: 3 !important;
+}
+
+.cahier-page > .cahier-exams-list th:first-child {
+  font-size: 0 !important;
+}
+
+.cahier-page > .cahier-exams-list th:first-child::after {
+  content: 'DATE' !important;
+  font-size: 12px !important;
+}
+
+.cahier-page > .cahier-exams-list th:nth-child(2) {
+  font-size: 0 !important;
+}
+
+.cahier-page > .cahier-exams-list th:nth-child(2)::after {
+  content: 'CYCLE' !important;
+  font-size: 12px !important;
+}
+
+.cahier-page > .cahier-exams-list td:first-child {
+  color: #111827 !important;
+  font-weight: 900 !important;
+}
+
+.cahier-page > .cahier-exams-list td:nth-child(2) {
+  width: fit-content !important;
+  min-width: 78px !important;
+  min-height: 30px !important;
+  margin: 8px auto !important;
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  background: #bbf7d0 !important;
+  color: #14532d !important;
+  font-weight: 900 !important;
+}
+
+.cahier-page > .cahier-exams-list tbody tr:nth-child(even) td:nth-child(2) {
+  background: #bfdbfe !important;
+  color: #1e3a8a !important;
+}
+
+.cahier-page > .cahier-exams-list td:nth-child(3) {
+  justify-content: flex-start !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 10px 10px 10px 18px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #111827 !important;
+  text-align: left !important;
+  font-weight: 900 !important;
+}
