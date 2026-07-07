@@ -50,8 +50,8 @@
   position: relative !important;
   left: -3px !important;
   z-index: 3 !important;
-  background: #fff !important;
-  border-left: 1px solid rgba(63, 64, 80, 0.18) !important;
+  background: rgba(63, 64, 80, 0.045) !important;
+  border-left: 1px solid #111 !important;
   padding-left: 3px !important;
   color: rgba(55, 65, 81, 0.95) !important;
   font-size: 10px !important;
