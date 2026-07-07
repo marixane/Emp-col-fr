@@ -5,8 +5,19 @@ const tagHomeworkProgressBars = () => {
     const progressBar = progressWrap?.children?.[0];
 
     if (header) header.classList.add('cahier-homework-header');
-    if (progressWrap) progressWrap.classList.add('cahier-progress-wrap');
-    if (progressBar) progressBar.classList.add('cahier-progress-bar');
+
+    if (progressWrap) {
+      progressWrap.classList.add('cahier-progress-wrap');
+      progressWrap.style.setProperty('width', '75%', 'important');
+      progressWrap.style.setProperty('justify-self', 'center', 'important');
+      progressWrap.style.setProperty('max-width', '75%', 'important');
+    }
+
+    if (progressBar) {
+      progressBar.classList.add('cahier-progress-bar');
+      progressBar.style.setProperty('width', '100%', 'important');
+      progressBar.style.setProperty('max-width', '100%', 'important');
+    }
   });
 };
 
