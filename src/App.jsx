@@ -59,6 +59,23 @@ const eventStyle = {
   overflow: 'hidden'
 };
 
+const newPageHeaderStyle = {
+  position: 'absolute',
+  top: '10px',
+  left: '50px',
+  right: '18px',
+  height: '42px',
+  display: 'grid',
+  gridTemplateColumns: '1fr auto',
+  alignItems: 'center',
+  gap: '18px',
+  borderRadius: '12px',
+  background: '#ddd6fe',
+  color: '#111827',
+  padding: '0 18px',
+  boxShadow: '0 2px 6px rgba(17, 17, 17, 0.12)'
+};
+
 function SignatureRow() {
   return <section className="homework-entry cahier-extra-holiday-entry forced-signature-row" style={{ '--homework-color': '#8b5cf6' }}>
     <div className="homework-date">SAMEDI 10/07/2027</div>
@@ -74,20 +91,41 @@ function SignatureRow() {
   </section>;
 }
 
+function SignaturePage() {
+  return <main className="cahier-shell clean-cahier-shell forced-signature-shell">
+    <section className="cahier-preview-zone">
+      <div className="a4-page cahier-page homework-page forced-signature-page" style={{ position: 'relative', paddingTop: '60px', '--group-color': '#ddd6fe' }}>
+        <div style={newPageHeaderStyle}>
+          <strong style={{ fontSize: '20px', textTransform: 'uppercase' }}>Clôture administrative</strong>
+          <strong style={{ color: '#5b21b6', fontSize: '14px' }}>10/07/2027</strong>
+        </div>
+        <SignatureRow />
+      </div>
+    </section>
+  </main>;
+}
+
 export default function App() {
   const [lastHomeworkPage, setLastHomeworkPage] = useState(null);
+  const [needsNewPage, setNeedsNewPage] = useState(false);
 
   useEffect(() => {
     document.body.classList.add('cahier-tab-active');
     document.body.classList.remove('devoir-tab-active');
 
-    const findLastPage = () => {
-      const pages = document.querySelectorAll('.cahier-preview-zone .homework-page:not(.forced-signature-page)');
-      setLastHomeworkPage(pages.length ? pages[pages.length - 1] : null);
+    const inspectPages = () => {
+      const pages = [...document.querySelectorAll('.cahier-preview-zone .homework-page:not(.forced-signature-page)')];
+      const lastPage = pages.at(-1) ?? null;
+      const rowCount = lastPage
+        ? lastPage.querySelectorAll(':scope > .homework-entry:not(.forced-signature-row)').length
+        : 0;
+
+      setLastHomeworkPage(lastPage);
+      setNeedsNewPage(Boolean(lastPage && rowCount >= 5));
     };
 
-    findLastPage();
-    const observer = new MutationObserver(findLastPage);
+    inspectPages();
+    const observer = new MutationObserver(inspectPages);
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
@@ -98,6 +136,7 @@ export default function App() {
 
   return <>
     <Tab />
-    {lastHomeworkPage && createPortal(<SignatureRow />, lastHomeworkPage)}
+    {lastHomeworkPage && !needsNewPage && createPortal(<SignatureRow />, lastHomeworkPage)}
+    {needsNewPage && <SignaturePage />}
   </>;
 }
