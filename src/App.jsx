@@ -13,8 +13,10 @@ export default function App() {
 
   return <>
     <style>{`
-      .timetable-table {
-        transform: translateY(-150px);
+      table.timetable-table {
+        position: relative !important;
+        top: -150px !important;
+        transform: none !important;
       }
 
       .cahier-page > div[style*="grid-template-columns: repeat(3, 1fr)"] {
