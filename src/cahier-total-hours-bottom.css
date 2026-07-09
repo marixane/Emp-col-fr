@@ -7,7 +7,7 @@
   left: calc(50% + 20px) !important;
   right: auto !important;
   top: auto !important;
-  bottom: 268px !important;
+  bottom: 348px !important;
   z-index: 5;
   width: auto !important;
   min-width: 105px !important;
@@ -35,6 +35,6 @@
 @media print {
   .cahier-preview-zone > .cahier-page:not(.homework-page):not(.homework-cover-page) .total-hours-control {
     left: calc(50% + 20px) !important;
-    bottom: calc(10mm + 250px) !important;
+    bottom: calc(10mm + 330px) !important;
   }
 }
