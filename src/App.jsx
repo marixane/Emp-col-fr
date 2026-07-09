@@ -19,9 +19,9 @@ export default function App() {
         transform: none !important;
       }
 
-      .total-hours-control {
-        position: relative !important;
-        top: -100px !important;
+      div.total-hours-control {
+        transform: translateY(-100px) !important;
+        z-index: 10 !important;
       }
 
       .cahier-page > div[style*="grid-template-columns: repeat(3, 1fr)"] {
