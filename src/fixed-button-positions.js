@@ -1,3 +1,5 @@
+import './cahier-pdf-preview-colleges.js';
+
 function ensureFixedButtonPositionStyle() {
   var style = document.getElementById('fixed-button-positions-style');
   if (!style) {
