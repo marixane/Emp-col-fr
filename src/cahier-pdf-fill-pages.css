@@ -103,3 +103,13 @@
     border-radius: 12px !important;
   }
 }
+
+#cahier-pdf-button-stable,
+#college-cahier-pdf-preview-button,
+#cahier-pdf-preview-stable {
+  width: 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
