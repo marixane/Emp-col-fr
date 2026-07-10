@@ -1,6 +1,17 @@
 const COLLEGE_PREVIEW_BUTTON_ID = 'college-cahier-pdf-preview-button';
 const COLLEGE_DOWNLOAD_BUTTON_ID = 'cahier-pdf-button-stable';
 
+const applyCollegePdfButtonStyle = (button, side) => {
+  if (!button) return;
+
+  const horizontal = side === 'left'
+    ? 'left:22px!important;right:auto!important;'
+    : 'right:22px!important;left:auto!important;';
+
+  button.hidden = false;
+  button.style.cssText = `position:fixed!important;${horizontal}bottom:24px!important;z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;box-sizing:border-box!important;width:340px!important;height:66px!important;max-width:calc(50vw - 34px)!important;background:linear-gradient(180deg,#60a5fa 0%,#2563eb 48%,#1d4ed8 100%)!important;color:#fff!important;border:1px solid #1e40af!important;border-bottom:5px solid #172554!important;border-radius:16px!important;padding:0 22px!important;font:900 16px Arial,sans-serif!important;letter-spacing:.2px!important;text-shadow:0 1px 2px rgba(0,0,0,.45)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 6px 0 #172554,0 13px 25px rgba(15,23,42,.42)!important;transform:translateY(-3px)!important;cursor:pointer!important;transition:transform .12s ease,box-shadow .12s ease,filter .12s ease!important;`;
+};
+
 const writePreviewLoadingPage = (previewWindow) => {
   previewWindow.document.open();
   previewWindow.document.write(`<!doctype html>
@@ -138,17 +149,21 @@ const mountCollegePdfPreviewButton = () => {
     document.body.append(button);
   }
 
-  button.hidden = false;
   button.title = 'Générer et afficher le PDF complet du cahier de texte';
-  button.style.cssText = 'position:fixed!important;left:22px!important;right:auto!important;bottom:22px!important;z-index:2147483647!important;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;background:#111827!important;color:#fff!important;border:0!important;border-radius:14px!important;padding:13px 18px!important;font:900 14px Arial,sans-serif!important;box-shadow:0 8px 25px rgba(0,0,0,.35)!important;cursor:pointer!important;';
+  applyCollegePdfButtonStyle(button, 'left');
+};
+
+const refreshCollegePdfButtons = () => {
+  mountCollegePdfPreviewButton();
+  applyCollegePdfButtonStyle(document.getElementById(COLLEGE_DOWNLOAD_BUTTON_ID), 'right');
 };
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', mountCollegePdfPreviewButton, { once: true });
+  document.addEventListener('DOMContentLoaded', refreshCollegePdfButtons, { once: true });
 } else {
-  mountCollegePdfPreviewButton();
+  refreshCollegePdfButtons();
 }
 
-window.setTimeout(mountCollegePdfPreviewButton, 100);
-window.setTimeout(mountCollegePdfPreviewButton, 500);
-window.setInterval(mountCollegePdfPreviewButton, 1500);
+window.setTimeout(refreshCollegePdfButtons, 100);
+window.setTimeout(refreshCollegePdfButtons, 500);
+window.setInterval(refreshCollegePdfButtons, 250);
