@@ -8,7 +8,6 @@ const PDF_FILENAME = 'Cahier-de-texte-2026-2027.pdf';
 const LEGACY_COVER_SELECTOR = '#cahier-main-cover-page, .cahier-main-cover-page, [data-force-first-page="true"]';
 const COMPACT_PDF_HIDDEN_HOUR_START = 4;
 const COMPACT_PDF_HIDDEN_HOUR_END = 6;
-const PDF_BATCH_SIZE = 12;
 
 const EXPORT_CSS = `
   @page { size: ${A4_WIDTH} ${A4_HEIGHT}; margin: 0; }
@@ -316,50 +315,6 @@ const buildExportHtml = () => {
   return `<style>${getCss()}\n${EXPORT_CSS}</style>${zone.outerHTML}`;
 };
 
-const nextPaint = () => new Promise((resolve) => window.requestAnimationFrame(() => resolve()));
-
-const getOrderedExportPages = () => {
-  const pages = Array.from(document.querySelectorAll('.cahier-preview-zone .a4-page, .cahier-preview-zone .cahier-page')).filter((page) => {
-    if (page.matches(LEGACY_COVER_SELECTOR)) return false;
-    const rect = page.getBoundingClientRect();
-    const style = window.getComputedStyle(page);
-    return rect.width > 50 && rect.height > 50 && style.display !== 'none' && style.visibility !== 'hidden';
-  });
-
-  if (!pages.length) throw new Error('Aucune page A4 trouvée');
-
-  const isExamsPage = (page) => page.matches('#cahier-exams-groups-page, .cahier-exams-groups-page');
-  const isHolidaysPage = (page) => page.matches('#cahier-holidays-page, .holidays-page');
-  const regularPages = pages.filter((page) => !isExamsPage(page) && !isHolidaysPage(page));
-  const examsPage = pages.filter(isExamsPage).pop();
-  const holidaysPage = pages.filter(isHolidaysPage).pop();
-  return [...regularPages, ...(examsPage ? [examsPage] : []), ...(holidaysPage ? [holidaysPage] : [])];
-};
-
-const buildExportChunkHtml = async (sourcePages, css, onClone) => {
-  const zone = document.createElement('div');
-  zone.className = 'cahier-preview-zone';
-  zone.style.setProperty('width', A4_WIDTH, 'important');
-  zone.style.setProperty('display', 'block', 'important');
-  zone.style.setProperty('margin', '0', 'important');
-  zone.style.setProperty('padding', '0', 'important');
-
-  for (const page of sourcePages) {
-    const clone = page.cloneNode(true);
-    prepareClone(clone);
-    zone.append(clone);
-    onClone();
-    await nextPaint();
-  }
-
-  prepareCompactTimetablesForPdf(zone);
-  applySessionDurationsForPdf(zone);
-  removeAfterJuly10(zone);
-  applyFullYearsForPdf(zone);
-  if (!zone.querySelector('.a4-page, .cahier-page')) return '';
-  return `<style>${css}\n${EXPORT_CSS}</style>${zone.outerHTML}`;
-};
-
 const requestPdfChunk = async (html) => {
   const response = await fetch('/api/cahier-pdf', {
     method: 'POST',
@@ -373,34 +328,6 @@ const requestPdfChunk = async (html) => {
     throw new Error(message);
   }
   return response.arrayBuffer();
-};
-
-const buildProgressivePdf = async (onProgress) => {
-  const { PDFDocument } = await import('pdf-lib');
-  const pages = getOrderedExportPages();
-  const css = getCss();
-  const mergedPdf = await PDFDocument.create();
-  let preparedPages = 0;
-
-  for (let start = 0; start < pages.length; start += PDF_BATCH_SIZE) {
-    const batch = pages.slice(start, start + PDF_BATCH_SIZE);
-    const html = await buildExportChunkHtml(batch, css, () => {
-      preparedPages += 1;
-      onProgress(preparedPages, pages.length, 'Préparation');
-    });
-    if (!html) continue;
-
-    onProgress(Math.min(start + batch.length, pages.length), pages.length, 'Génération');
-    const chunkBytes = await requestPdfChunk(html);
-    const chunkPdf = await PDFDocument.load(chunkBytes);
-    const copiedPages = await mergedPdf.copyPages(chunkPdf, chunkPdf.getPageIndices());
-    copiedPages.forEach((page) => mergedPdf.addPage(page));
-    await nextPaint();
-  }
-
-  onProgress(pages.length, pages.length, 'Finalisation');
-  const bytes = await mergedPdf.save({ useObjectStreams: true });
-  return new Blob([bytes], { type: 'application/pdf' });
 };
 
 const downloadPdf = (pdfBlob) => {
@@ -478,9 +405,10 @@ const exportPdf = async (button, mode = 'download') => {
       return;
     }
 
-    const blob = await buildProgressivePdf((done, total, stage) => {
-      button.textContent = `${stage} ${done}/${total}`;
-    });
+    const html = buildExportHtml();
+    button.textContent = 'Génération PDF...';
+    const bytes = await requestPdfChunk(html);
+    const blob = new Blob([bytes], { type: 'application/pdf' });
 
     button.textContent = 'Téléchargement...';
     downloadPdf(blob);
